@@ -30,3 +30,47 @@ El uso de sistemas o software no dedicado a este objetivo, u organizaciones que 
 Para dar respuesta a esta problemática, se plantea el desarrollo de un sistema de gestión de tickets de soporte técnico. Este sistema permitirá a los usuarios generar solicitudes de asistencia (tickets), que serán asignadas a técnicos responsables y categorizadas según su tipo y prioridad. Cada ticket contará con un historial de acciones que documente las actividades realizadas hasta su resolución.
 
 El objetivo principal es diseñar una base de datos relacional que organice de manera eficiente la información de usuarios, técnicos, tickets y estados, posibilitando un seguimiento integral de cada incidencia. De esta forma, la empresa podrá mejorar la trazabilidad de los problemas, reducir los tiempos de resolución y obtener métricas de desempeño que apoyen la toma de decisiones.
+
+# CAPÍTULO VI: INTRODUCCIÓN
+
+## Diccionario de Datos
+
+. Tabla: Usuario
+Almacena la información de los usuarios que pueden crear tickets.
+
+Campo	Tipo de Dato	Longitud	Nulable	Clave	Descripción
+id_usuario	INT	(PK)	NO	PK	Identificador único del usuario.
+nombre	VARCHAR	255	NO		Nombre completo del usuario.
+correo	VARCHAR	255	NO		Dirección de correo electrónico del usuario.
+telefono	VARCHAR	20	SÍ		Número de teléfono del usuario.
+empresa	VARCHAR	255	SÍ		Nombre de la empresa a la que pertenece el usuario.
+
+
+2. Tabla: Tecnico
+Almacena la información de los técnicos que resuelven los tickets.
+
+Campo	Tipo de Dato	Longitud	Nulable	Clave	Descripción
+id_tecnico	INT	(PK)	NO	PK	Identificador único del técnico.
+nombre	VARCHAR	255	NO		Nombre completo del técnico.
+correo	VARCHAR	255	NO		Dirección de correo electrónico del técnico.
+
+
+3. Tabla: Especialidad
+Contiene las diferentes especialidades en las que un técnico puede estar calificado.
+
+Campo	Tipo de Dato	Longitud	Nulable	Clave	Descripción
+id_especialidad	INT	(PK)	NO	PK	Identificador único de la especialidad.
+tipo_especialidad	VARCHAR	100	NO		Nombre o descripción de la especialidad.
+
+
+4. Tabla: Tecnico_Especialidad
+Tabla intermedia para la relación N:M entre Tecnico y Especialidad, indicando qué especialidades tiene cada técnico.
+
+Campo	Tipo de Dato	Longitud	Nulable	Clave	Descripción
+id_tecnico	INT	(FK)	NO	PK, FK	Identificador del técnico (clave foránea de Tecnico).
+id_especialidad	INT	(FK)	NO	PK, FK	Identificador de la especialidad (clave foránea de Especialidad).
+
+
+
+
+
