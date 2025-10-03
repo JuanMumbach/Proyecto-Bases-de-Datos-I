@@ -40,7 +40,11 @@ Almacena la información de los usuarios que pueden crear tickets.
 
 | Campo | Tipo de Dato | Longitud | Nulable | Clave | Descripción |
 |-------|--------------|----------|----------|-------|-------------|
+<<<<<<< HEAD
 | id_usuario | INT| | NO | PK | Identificador único del usuario. |
+=======
+| id_usuario | INT | NO | PK | Identificador único del usuario. |
+>>>>>>> b5b28263dc52ac5630e4a883cfd4920bd18407fa
 | nombre | VARCHAR | 255 | NO | | Nombre completo del usuario. |
 | correo | VARCHAR | 255 | NO | | Dirección de correo electrónico del usuario. |
 | telefono | VARCHAR | 20 | SÍ | | Número de teléfono del usuario. |
