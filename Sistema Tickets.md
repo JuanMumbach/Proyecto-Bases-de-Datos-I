@@ -38,7 +38,16 @@ El objetivo principal es diseñar una base de datos relacional que organice de m
 . Tabla: Usuario
 Almacena la información de los usuarios que pueden crear tickets.
 
-Campo	Tipo de Dato	Longitud	Nulable	Clave	Descripción
+| Campo | Tipo de Dato | Longitud | Nulable | Clave | Descripción |
+|-------|--------------|----------|----------|-------|-------------|
+| id_usuario | INT | NO | PK | Identificador único del usuario. |
+| nombre | VARCHAR | 255 | NO | | Nombre completo del usuario. |
+| correo | VARCHAR | 255 | NO | | Dirección de correo electrónico del usuario. |
+| telefono | VARCHAR | 20 | SÍ | | Número de teléfono del usuario. |
+| empresa | VARCHAR | 255 | SÍ | | Nombre de la empresa a la que pertenece el usuario. |
+
+
+1.	Tipo de Dato	Longitud	Nulable	Clave	Descripción
 id_usuario	INT	(PK)	NO	PK	Identificador único del usuario.
 nombre	VARCHAR	255	NO		Nombre completo del usuario.
 correo	VARCHAR	255	NO		Dirección de correo electrónico del usuario.
