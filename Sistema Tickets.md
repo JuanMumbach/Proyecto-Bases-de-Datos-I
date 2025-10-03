@@ -31,7 +31,7 @@ Para dar respuesta a esta problemática, se plantea el desarrollo de un sistema 
 
 El objetivo principal es diseñar una base de datos relacional que organice de manera eficiente la información de usuarios, técnicos, tickets y estados, posibilitando un seguimiento integral de cada incidencia. De esta forma, la empresa podrá mejorar la trazabilidad de los problemas, reducir los tiempos de resolución y obtener métricas de desempeño que apoyen la toma de decisiones.
 
-# CAPÍTULO VI: INTRODUCCIÓN
+# CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS
 
 ## Diccionario de Datos
 
