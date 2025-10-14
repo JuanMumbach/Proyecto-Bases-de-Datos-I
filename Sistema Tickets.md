@@ -78,3 +78,4 @@ Tabla intermedia para la relación N:M entre Tecnico y Especialidad, indicando q
 
 
 
+ 
