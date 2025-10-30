@@ -1,0 +1,145 @@
+-- SCRIPT TEMA "Sistema de Tickets"
+-- ---------------------------------------------------
+-- DEFINICIÓN DEL MODELO DE DATOS
+-- ---------------------------------------------------
+
+    CREATE DATABASE SistemaTicketsDB;
+END
+GO
+
+USE SistemaTicketsDB;
+GO
+
+CREATE TABLE Usuario
+(
+    id_usuario INT IDENTITY(1,1) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    correo VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) NULL,      
+    empresa VARCHAR(255) NULL,       
+    
+    -- Columnas de Auditoría
+    date_create DATETIME NOT NULL CONSTRAINT DF_Usuario_date_create DEFAULT GETDATE(),
+    user_create VARCHAR(100) NOT NULL CONSTRAINT DF_Usuario_user_create DEFAULT SUSER_SNAME(),
+    activo BIT NOT NULL CONSTRAINT DF_Usuario_activo DEFAULT 1,
+    
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Usuario PRIMARY KEY (id_usuario),
+    CONSTRAINT UQ_Usuario_correo UNIQUE (correo)
+);
+GO
+
+CREATE TABLE Tecnico
+(
+    id_tecnico INT IDENTITY(1,1) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    correo VARCHAR(255) NOT NULL,
+
+    -- Columnas de Auditoría
+    date_create DATETIME NOT NULL CONSTRAINT DF_Tecnico_date_create DEFAULT GETDATE(),
+    user_create VARCHAR(100) NOT NULL CONSTRAINT DF_Tecnico_user_create DEFAULT SUSER_SNAME(),
+    activo BIT NOT NULL CONSTRAINT DF_Tecnico_activo DEFAULT 1,
+
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Tecnico PRIMARY KEY (id_tecnico),
+    CONSTRAINT UQ_Tecnico_correo UNIQUE (correo)
+);
+GO
+
+
+CREATE TABLE Especialidad
+(
+    id_especialidad INT IDENTITY(1,1) NOT NULL,
+    tipo_especialidad VARCHAR(100) NOT NULL,
+
+    -- Columnas de Auditoría
+    date_create DATETIME NOT NULL CONSTRAINT DF_Especialidad_date_create DEFAULT GETDATE(),
+    user_create VARCHAR(100) NOT NULL CONSTRAINT DF_Especialidad_user_create DEFAULT SUSER_SNAME(),
+    activo BIT NOT NULL CONSTRAINT DF_Especialidad_activo DEFAULT 1,
+    
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Especialidad PRIMARY KEY (id_especialidad),
+    CONSTRAINT UQ_Especialidad_tipo UNIQUE (tipo_especialidad)
+);
+GO
+
+CREATE TABLE Categoria_Problema
+(
+    id_categoria INT IDENTITY(1,1) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+
+    -- Columnas de Auditoría
+    date_create DATETIME NOT NULL CONSTRAINT DF_Categoria_date_create DEFAULT GETDATE(),
+    user_create VARCHAR(100) NOT NULL CONSTRAINT DF_Categoria_user_create DEFAULT SUSER_SNAME(),
+    activo BIT NOT NULL CONSTRAINT DF_Categoria_activo DEFAULT 1,
+    
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Categoria_Problema PRIMARY KEY (id_categoria),
+    CONSTRAINT UQ_Categoria_Problema_nombre UNIQUE (nombre)
+);
+GO
+
+CREATE TABLE Tecnico_Especialidad
+(
+    id_tecnico INT NOT NULL,
+    id_especialidad INT NOT NULL,
+    
+    date_create DATETIME NOT NULL CONSTRAINT DF_Tecnico_Especialidad_date_create DEFAULT GETDATE(),
+    user_create VARCHAR(100) NOT NULL CONSTRAINT DF_Tecnico_Especialidad_user_create DEFAULT SUSER_SNAME(),
+
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Tecnico_Especialidad PRIMARY KEY (id_tecnico, id_especialidad),
+    
+    CONSTRAINT FK_Tecnico_Especialidad_Tecnico FOREIGN KEY (id_tecnico) REFERENCES Tecnico(id_tecnico),
+    CONSTRAINT FK_Tecnico_Especialidad_Especialidad FOREIGN KEY (id_especialidad) REFERENCES Especialidad(id_especialidad)
+);
+GO
+
+CREATE TABLE Tickets
+(
+    id_ticket INT IDENTITY(1,1) NOT NULL,
+    fecha_creacion DATETIME NOT NULL CONSTRAINT DF_Tickets_fecha_creacion DEFAULT GETDATE(), -- Campo del diagrama
+    descripcion VARCHAR(MAX) NOT NULL,
+    prioridad VARCHAR(50) NOT NULL CONSTRAINT DF_Tickets_prioridad DEFAULT 'Media', -- Asumo un default
+    estado VARCHAR(50) NOT NULL CONSTRAINT DF_Tickets_estado DEFAULT 'Abierto',       -- Asumo un default
+    
+    -- Llaves Foráneas (FK)
+    id_usuario INT NOT NULL,         -- Quién creó el ticket
+    id_tecnico INT NULL,             -- Quién está asignado (puede ser nulo al inicio)
+    id_categoria INT NOT NULL,       -- Qué tipo de problema es
+    
+    -- Columnas de Auditoría (Solo las que faltan)
+    user_create VARCHAR(100) NOT NULL CONSTRAINT DF_Tickets_user_create DEFAULT SUSER_SNAME(),
+    activo BIT NOT NULL CONSTRAINT DF_Tickets_activo DEFAULT 1, -- Para borrado lógico del ticket
+
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Tickets PRIMARY KEY (id_ticket),
+    CONSTRAINT FK_Tickets_Usuario FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
+    CONSTRAINT FK_Tickets_Tecnico FOREIGN KEY (id_tecnico) REFERENCES Tecnico(id_tecnico),
+    CONSTRAINT FK_Tickets_Categoria FOREIGN KEY (id_categoria) REFERENCES Categoria_Problema(id_categoria)
+);
+GO
+
+CREATE TABLE Historial
+(
+    id_historial INT IDENTITY(1,1) NOT NULL,
+    fecha DATETIME NOT NULL CONSTRAINT DF_Historial_fecha DEFAULT GETDATE(), -- Campo del diagrama
+    comentario VARCHAR(MAX) NULL,
+    
+    -- Llaves Foráneas (FK)
+    id_ticket INT NOT NULL,                 
+    registrado_por_usuario INT NULL,       
+    registrado_por_tecnico INT NULL,       
+
+    -- Restricciones (Constraints)
+    CONSTRAINT PK_Historial PRIMARY KEY (id_historial),
+    CONSTRAINT FK_Historial_Ticket FOREIGN KEY (id_ticket) REFERENCES Tickets(id_ticket),
+    CONSTRAINT FK_Historial_Usuario FOREIGN KEY (registrado_por_usuario) REFERENCES Usuario(id_usuario),
+    CONSTRAINT FK_Historial_Tecnico FOREIGN KEY (registrado_por_tecnico) REFERENCES Tecnico(id_tecnico),
+    
+    -- Regla de Negocio: Un registro es hecho por un usuario O un técnico, pero no ambos.
+    -- (Permite que ambos sean NULL si es un registro automático del sistema)
+    CONSTRAINT CK_Historial_Actor CHECK (NOT (registrado_por_usuario IS NOT NULL AND registrado_por_tecnico IS NOT NULL))
+);
+
+
