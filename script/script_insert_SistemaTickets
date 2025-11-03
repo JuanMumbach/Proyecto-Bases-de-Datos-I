@@ -1,0 +1,85 @@
+/*	BASE DE DATOS I - 2025
+	PROYECTO DE ESTUDIO - GESTIÓN DE TICKETS
+	AUTORES:
+		Cabrera, Wilson Alexis.
+		Fernandez, Facundo Nicolás.
+		Mumbach, Juan Ignacio.
+		Pavon, Máximo David Octavio.
+*/
+
+-----------------------------------
+-- LOTE DE DATOS
+-----------------------------------
+
+USE SistemaTicketsDB;	-- Ubicarse en la BD a trabajar
+
+-- Tabla Usuario
+INSERT INTO Usuario (nombre, correo, telefono, empresa)
+VALUES 
+('Facundo Nicolas Fernandez', 'ffernandez@mail.com', '3794111111', 'FaCENA'),	-- ID: 1
+('Wilson Alexis Cabrera', 'wcabrera@mail.com', '3794222222', 'FaCENA'),	-- ID: 2
+('Ana Gomez', 'agomez@empresaexterna.com', '3794333333', 'Empresa Externa S.A.'), -- ID: 3
+('Pedro Martinez', 'pmartinez@otraempresa.com', '3794444444', 'Otra Empresa S.R.L.'); -- ID: 4
+
+SELECT * FROM Usuario;
+
+-- Tabla Tecnico
+INSERT INTO Tecnico (nombre, correo)
+VALUES 
+('Juan Ignacio Mumbach', 'jimumbach@soporte.unne.edu.ar'),	-- ID: 1
+('Maximo David Pavon', 'mdpavon@soporte.unne.edu.ar'),		-- ID: 2
+('Dario Villegas', 'dvillegas@soporte.unne.edu.ar');		-- ID: 3
+
+SELECT * FROM Tecnico;
+
+-- Tabla Especialidad
+INSERT INTO Especialidad (tipo_especialidad)
+VALUES 
+('Soporte de Hardware'),		-- ID: 1
+('Redes y Conectividad'),	-- ID: 2
+('Bases de Datos'),			-- ID: 3
+('Sistemas Operativos');	-- ID: 4
+
+SELECT * FROM Especialidad;
+
+-- Tabla Categoria_Problema
+INSERT INTO Categoria_Problema (nombre)
+VALUES
+('Problema de Hardware'),	-- ID: 1
+('Problema de Software'),	-- ID: 2
+('Consulta de Red'),		-- ID: 3
+('Permisos de Usuario');	-- ID: 4
+
+SELECT * FROM Categoria_Problema;
+
+-- Tabla Tecnico_Especialidad
+INSERT INTO Tecnico_Especialidad (id_tecnico, id_especialidad)
+VALUES
+(1, 2),	-- Juan (ID 1) -> Redes (ID 2)
+(1, 3),	-- Juan (ID 1) -> Bases de Datos (ID 3)
+(2, 1),	-- Maximo (ID 2) -> Hardware (ID 1)
+(3, 1),	-- Dario (ID 3) -> Hardware (ID 1)
+(3, 4);	-- Dario (ID 3) -> Sistemas Operativos (ID 4)
+
+SELECT * FROM Tecnico_Especialidad;
+
+-- Tabla Tickets
+-- Nota: id_tecnico se deja en NULL porque el ticket se crea "Abierto" sin asignar.
+INSERT INTO Tickets (descripcion, prioridad, estado, id_usuario, id_tecnico, id_categoria)
+VALUES
+('El monitor de mi oficina no enciende. Ya probé cambiar los cables.', 'Alta', 'Abierto', 1, NULL, 1), -- ID: 1 (Facundo, Hardware)
+('No tengo conexión a internet en mi puesto.', 'Media', 'Abierto', 2, NULL, 3), -- ID: 2 (Wilson, Red)
+('El software de contabilidad no abre, da un error de licencia.', 'Baja', 'Abierto', 3, NULL, 2), -- ID: 3 (Ana Gomez, Software)
+('Olvidé mi contraseña de red y se bloqueó mi usuario.', 'Alta', 'Abierto', 4, NULL, 4); -- ID: 4 (Pedro, Permisos)
+
+SELECT * FROM Tickets;
+
+-- Tabla Historial
+INSERT INTO Historial (comentario, id_ticket, registrado_por_usuario, registrado_por_tecnico)
+VALUES
+('Se crea el ticket.', 1, 1, NULL),	-- Historial para Ticket 1 (Creado por Facundo)
+('Se crea el ticket.', 2, 2, NULL),	-- Historial para Ticket 2 (Creado por Wilson)
+('Ticket creado por usuario externo.', 3, 3, NULL), -- Historial para Ticket 3 (Creado por Ana)
+('Usuario bloqueado, necesita reseteo de clave.', 4, 4, NULL); -- Historial para Ticket 4 (Creado por Pedro)
+
+SELECT * FROM Historial;
