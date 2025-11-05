@@ -48,7 +48,7 @@ A continuación, se detalla el diccionario de datos que define la estructura de 
 Almacena la información de los usuarios que pueden crear tickets.
 
 | Campo       | Tipo de Dato | Longitud | Nulable | Clave                        | Descripción                                         |
-| ----------- | ------------ | -------- | ------- | ---------------------------- | --------------------------------------------------- | ------------------------------- |
+| ----------- | ------------ | -------- | ------- | ---------------------------- | --------------------------------------------------- |
 | id_usuario  | INT          | 10       | NO      | PK                           | Identificador único del usuario(Aut).               |
 | nombre      | VARCHAR      | 255      | NO      | Nombre completo del usuario. |
 | correo      | VARCHAR      | 255      | NO      | UQ                           | Dirección de correo elect del usuario (Único).      |
@@ -63,7 +63,7 @@ Almacena la información de los usuarios que pueden crear tickets.
 Almacena la información de los técnicos que resuelven los tickets.
 
 | Campo       | Tipo de Dato | Longitud | Nulable | Clave | Descripción                                        |
-| ----------- | ------------ | -------- | ------- | ----- | -------------------------------------------------- | ------------------------------------------ |
+| ----------- | ------------ | -------- | ------- | ----- | -------------------------------------------------- |
 | id_tecnico  | INT          | 10       | NO      | PK    | Identificador único del técnico (Autoincremental). |
 | nombre      | VARCHAR      | 255      | NO      | UQ    | Nombre completo del técnico (Único).               |
 | correo      | VARCHAR      | 255      | NO      | O     | Nombre completo del técnico.                       |
