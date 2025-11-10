@@ -36,6 +36,93 @@ Para dar respuesta a esta problemática, se plantea el desarrollo de un sistema 
 
 El objetivo principal es diseñar una base de datos relacional que organice de manera eficiente la información de usuarios, técnicos, tickets y estados, posibilitando un seguimiento integral de cada incidencia. De esta forma, la empresa podrá mejorar la trazabilidad de los problemas, reducir los tiempos de resolución y obtener métricas de desempeño que apoyen la toma de decisiones.
 
+# CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL
+
+A continuación, se detallan los conceptos teóricos fundamentales de SQL Server que se han investigado y aplicado directamente en el diseño de la base de datos del Sistema de Tickets.
+
+## TEMA 1: "Manejo de permisos a nivel de usuarios de base de datos"
+
+La seguridad es un pilar fundamental de nuestro sistema. Para ello, se utiliza un esquema de permisos y roles para asegurar que los usuarios solo accedan a la información que les corresponde.
+
+### Permisos
+
+Un permiso es una autorización específica para realizar una acción (`SELECT`, `INSERT`, `UPDATE`, etc.) sobre un objeto (como una tabla).
+
+### Roles
+
+Un rol es un "paquete" de permisos que se puede asignar a un usuario. En lugar de dar permisos uno por uno, creamos roles que definen perfiles de trabajo.
+
+**Aplicación en el Sistema de Tickets:**
+
+- **`Rol_UsuarioFinal`**: Este rol solo tendría permiso de `INSERT` sobre la tabla `Tickets` y `SELECT` _únicamente_ sobre los tickets y el historial donde su `id_usuario` coincida con el del registro. Esto impide que un usuario vea los tickets de otros.
+- **`Rol_Tecnico`**: Este rol tendría permisos de `SELECT` sobre todas las tablas `Tickets` y `Categoria_Problema`, y permisos de `UPDATE` sobre la tabla `Tickets` (para cambiar el `estado` o asignarse un `id_tecnico`). No tendría permiso para `DELETE`, garantizando la integridad.
+
+Este modelo asegura que los datos estén protegidos y que cada perfil (usuario y técnico) opere solo dentro de su ámbito.
+
+## TEMA 2: "Procedimientos y funciones almacenadas"
+
+Para encapsular la lógica de negocio, centralizar operaciones y mejorar la seguridad, se utiliza lógica almacenada dentro de la base de datos.
+
+### Procedimientos Almacenados (SP)
+
+Son conjuntos de instrucciones SQL que se ejecutan como una unidad.
+
+**Aplicación en el Sistema de Tickets:**
+Se crearía un procedimiento `sp_CrearNuevoTicket`. Cuando un usuario crea un ticket, la aplicación no ejecuta dos `INSERT` por separado. En su lugar, llama a este procedimiento pasándole los datos (ej. `id_usuario`, `descripcion`, `id_categoria`).
+El SP se encarga de:
+
+1.  Iniciar una transacción.
+2.  Hacer `INSERT` en la tabla `Tickets`.
+3.  Hacer `INSERT` en la tabla `Historial` (con el comentario "Ticket Creado").
+4.  Confirmar la transacción.
+
+Esto garantiza la **atomicidad** (o se hacen las dos inserciones, o no se hace ninguna) y es más seguro, ya que el `Rol_UsuarioFinal` solo tendría permiso de `EXECUTE` sobre este SP, y no permiso de `INSERT` directo sobre las tablas.
+
+### Funciones Almacenadas (FN)
+
+Son rutinas que siempre devuelven un valor y no pueden modificar datos.
+
+**Aplicación en el Sistema de Tickets:**
+Se podría crear una función `fn_ContarTicketsAbiertos(@id_tecnico)` que recibe un ID de técnico y devuelve un número entero. Esta función es ideal para un dashboard, permitiendo saber rápidamente cuántos tickets tiene asignados un técnico sin necesidad de ejecutar una consulta compleja desde la aplicación.
+
+## TEMA 3: "Optimización de consultas a través de índices"
+
+Un sistema de tickets puede crecer a miles de registros. Sin una correcta optimización, las consultas se volverían lentas. Los índices son la principal herramienta para garantizar el rendimiento.
+
+### Índices Agrupados (Clustered)
+
+Definen el orden físico de almacenamiento de la tabla. Solo puede haber uno.
+
+**Aplicación en el Sistema de Tickets:**
+Por defecto, la `PRIMARY KEY` (`id_ticket`) de la tabla `Tickets` se crea como el **índice agrupado**. Esto significa que la tabla está físicamente ordenada por el ID del ticket. Es la forma más rápida posible de buscar un ticket específico por su número (`WHERE id_ticket = 123`).
+
+### Índices No Agrupados (Non-Clustered)
+
+Son estructuras separadas, como el índice de un libro, que contienen un puntero a la fila de datos.
+
+**Aplicación en el Sistema de Tickets:**
+Es **fundamental** crear un **índice no agrupado** en la columna `id_usuario` de la tabla `Tickets`. Cuando un usuario inicie sesión y el sistema ejecute la consulta "mostrar todos mis tickets" (`WHERE id_usuario = 1`), este índice permite al motor encontrar esos tickets instantáneamente, sin tener que escanear la tabla `Tickets` completa. También se crearían índices en `id_tecnico` y `id_categoria` por razones similares.
+
+## TEMA 4: "Manejo de tipos de datos JSON"
+
+Si bien nuestro diseño es puramente relacional y normalizado, SQL Server ofrece flexibilidad para manejar datos semi-estructurados usando JSON.
+
+### ¿Qué es JSON?
+
+Es un formato de texto ligero para intercambiar datos, estándar en aplicaciones web y APIs.
+
+### ¿Por qué se utiliza JSON?
+
+Permite almacenar datos flexibles sin una estructura fija.
+
+**Aplicación en el Sistema de Tickets:**
+Aunque no se implementó en el esquema principal, una mejora a futuro podría ser añadir una columna `DatosAdicionales` (de tipo `NVARCHAR(MAX)`) en la tabla `Historial`.
+Cuando se crea un ticket (`INSERT` en `Historial`), se podría almacenar información contextual como un JSON:
+`{ "navegador": "Chrome 120.0", "SO": "Windows 11", "IP": "200.51.10.3" }`
+
+SQL Server tiene funciones nativas para consultar estos datos JSON si fuera necesario, ofreciendo una gran flexibilidad para almacenar información de diagnóstico sin tener que agregar 10 columnas nuevas a la tabla.
+
+---
 
 # CAPÍTULO III: METODOLOGÍA SEGUIDA
 
@@ -65,7 +152,6 @@ Modelo Relacional: Permitió traducir el modelo conceptual al nivel lógico medi
 
 Diccionario de Datos: Documentó cada campo, tipo de dato, clave y descripción de todas las tablas que conforman la base de datos, sirviendo como guía técnica para su correcta implementación y mantenimiento.
 
-
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS
 
 ## Diccionario de Datos
@@ -77,16 +163,16 @@ A continuación, se detalla el diccionario de datos que define la estructura de 
 
 Almacena la información de los usuarios que pueden crear tickets.
 
-| Campo       | Tipo de Dato | Longitud | Nulable | Clave                        | Descripción                                         |
-| ----------- | ------------ | -------- | ------- | ---------------------------- | --------------------------------------------------- |
-| id_usuario  | INT          | 10       | NO      | PK                           | Identificador único del usuario(Aut).               |
-| nombre      | VARCHAR      | 255      | NO      |                              | Nombre completo del usuario.                        |
-| correo      | VARCHAR      | 255      | NO      | UQ                           | Dirección de correo elect del usuario (Único).      |
-| telefono    | VARCHAR      | 20       | SÍ      |                              | Número de teléfono del usuario.                     |
-| empresa     | VARCHAR      | 255      | SÍ      |                              | Nombre de la empresa a la que pertenece el usuario. |
-| date_create | DATETIME     |          | NO      |                              | Auditoría: Fecha y hora de creación del registro.   |
-| user_create | VARCHAR      | 100      | NO      |                              | Auditoría: Usuario de BD que creó el registro.      |
-| activo      | BIT          |          | NO      |                              | Borrado Lógico: 1 (Activo) o 0 (Inactivo).          |
+| Campo       | Tipo de Dato | Longitud | Nulable | Clave | Descripción                                         |
+| ----------- | ------------ | -------- | ------- | ----- | --------------------------------------------------- |
+| id_usuario  | INT          | 10       | NO      | PK    | Identificador único del usuario(Aut).               |
+| nombre      | VARCHAR      | 255      | NO      |       | Nombre completo del usuario.                        |
+| correo      | VARCHAR      | 255      | NO      | UQ    | Dirección de correo elect del usuario (Único).      |
+| telefono    | VARCHAR      | 20       | SÍ      |       | Número de teléfono del usuario.                     |
+| empresa     | VARCHAR      | 255      | SÍ      |       | Nombre de la empresa a la que pertenece el usuario. |
+| date_create | DATETIME     |          | NO      |       | Auditoría: Fecha y hora de creación del registro.   |
+| user_create | VARCHAR      | 100      | NO      |       | Auditoría: Usuario de BD que creó el registro.      |
+| activo      | BIT          |          | NO      |       | Borrado Lógico: 1 (Activo) o 0 (Inactivo).          |
 
 ### Tabla: Tecnico
 

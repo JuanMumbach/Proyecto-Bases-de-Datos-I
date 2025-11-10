@@ -4,7 +4,6 @@
 -- ---------------------------------------------------
 
     CREATE DATABASE SistemaTicketsDB;
-END
 GO
 
 USE SistemaTicketsDB;
@@ -95,7 +94,7 @@ CREATE TABLE Tecnico_Especialidad
 );
 GO
 
-CREATE TABLE Tickets
+CREATE TABLE Ticket
 (
     id_ticket INT IDENTITY(1,1) NOT NULL,
     fecha_creacion DATETIME NOT NULL CONSTRAINT DF_Tickets_fecha_creacion DEFAULT GETDATE(), -- Campo del diagrama
