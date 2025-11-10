@@ -63,16 +63,16 @@ VALUES
 
 SELECT * FROM Tecnico_Especialidad;
 
--- Tabla Tickets
+-- Tabla Ticket
 -- Nota: id_tecnico se deja en NULL porque el ticket se crea "Abierto" sin asignar.
-INSERT INTO Tickets (descripcion, prioridad, estado, id_usuario, id_tecnico, id_categoria)
+INSERT INTO Ticket (descripcion, prioridad, estado, id_usuario, id_tecnico, id_categoria)
 VALUES
 ('El monitor de mi oficina no enciende. Ya probé cambiar los cables.', 'Alta', 'Abierto', 1, NULL, 1), -- ID: 1 (Facundo, Hardware)
 ('No tengo conexión a internet en mi puesto.', 'Media', 'Abierto', 2, NULL, 3), -- ID: 2 (Wilson, Red)
 ('El software de contabilidad no abre, da un error de licencia.', 'Baja', 'Abierto', 3, NULL, 2), -- ID: 3 (Ana Gomez, Software)
 ('Olvidé mi contraseña de red y se bloqueó mi usuario.', 'Alta', 'Abierto', 4, NULL, 4); -- ID: 4 (Pedro, Permisos)
 
-SELECT * FROM Tickets;
+SELECT * FROM Ticket;
 
 -- Tabla Historial
 INSERT INTO Historial (comentario, id_ticket, registrado_por_usuario, registrado_por_tecnico)

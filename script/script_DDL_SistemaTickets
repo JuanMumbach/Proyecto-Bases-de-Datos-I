@@ -132,7 +132,7 @@ CREATE TABLE Historial
 
     -- Restricciones (Constraints)
     CONSTRAINT PK_Historial PRIMARY KEY (id_historial),
-    CONSTRAINT FK_Historial_Ticket FOREIGN KEY (id_ticket) REFERENCES Tickets(id_ticket),
+    CONSTRAINT FK_Historial_Ticket FOREIGN KEY (id_ticket) REFERENCES Ticket(id_ticket),
     CONSTRAINT FK_Historial_Usuario FOREIGN KEY (registrado_por_usuario) REFERENCES Usuario(id_usuario),
     CONSTRAINT FK_Historial_Tecnico FOREIGN KEY (registrado_por_tecnico) REFERENCES Tecnico(id_tecnico),
     
