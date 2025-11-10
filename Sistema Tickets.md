@@ -78,11 +78,11 @@ A continuación, se detalla el diccionario de datos que define la estructura de 
 Almacena la información de los usuarios que pueden crear tickets.
 
 | Campo       | Tipo de Dato | Longitud | Nulable | Clave                        | Descripción                                         |
-| ----------- | ------------ | -------- | ------- | ---------------------------- | --------------------------------------------------- | ------------------------------- |
+| ----------- | ------------ | -------- | ------- | ---------------------------- | --------------------------------------------------- |
 | id_usuario  | INT          | 10       | NO      | PK                           | Identificador único del usuario(Aut).               |
-| nombre      | VARCHAR      | 255      | NO      | Nombre completo del usuario. |
+| nombre      | VARCHAR      | 255      | NO      |                              | Nombre completo del usuario.                        |
 | correo      | VARCHAR      | 255      | NO      | UQ                           | Dirección de correo elect del usuario (Único).      |
-| telefono    | VARCHAR      | 20       | SÍ      |                              |                                                     | Número de teléfono del usuario. |
+| telefono    | VARCHAR      | 20       | SÍ      |                              | Número de teléfono del usuario.                     |
 | empresa     | VARCHAR      | 255      | SÍ      |                              | Nombre de la empresa a la que pertenece el usuario. |
 | date_create | DATETIME     |          | NO      |                              | Auditoría: Fecha y hora de creación del registro.   |
 | user_create | VARCHAR      | 100      | NO      |                              | Auditoría: Usuario de BD que creó el registro.      |
@@ -93,13 +93,13 @@ Almacena la información de los usuarios que pueden crear tickets.
 Almacena la información de los técnicos que resuelven los tickets.
 
 | Campo       | Tipo de Dato | Longitud | Nulable | Clave | Descripción                                        |
-| ----------- | ------------ | -------- | ------- | ----- | -------------------------------------------------- | ------------------------------------------ |
+| ----------- | ------------ | -------- | ------- | ----- | -------------------------------------------------- |
 | id_tecnico  | INT          | 10       | NO      | PK    | Identificador único del técnico (Autoincremental). |
 | nombre      | VARCHAR      | 255      | NO      | UQ    | Nombre completo del técnico (Único).               |
 | correo      | VARCHAR      | 255      | NO      | O     | Nombre completo del técnico.                       |
 | date_create | DATETIME     |          | NO      |       | Auditoría: Fecha y hora de creación del registro.  |
 | user_create | VARCHAR      | 100      | NO      |       | Auditoría: Usuario de BD que creó el registro.     |
-| activo      | BIT          |          | NO      |       |                                                    | Borrado Lógico: 1 (Activo) o 0 (Inactivo). |
+| activo      | BIT          |          | NO      |       | Borrado Lógico: 1 (Activo) o 0 (Inactivo).         |
 
 ### Tabla: Especialidad
 
