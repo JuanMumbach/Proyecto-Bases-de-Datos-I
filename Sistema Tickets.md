@@ -36,6 +36,36 @@ Para dar respuesta a esta problemática, se plantea el desarrollo de un sistema 
 
 El objetivo principal es diseñar una base de datos relacional que organice de manera eficiente la información de usuarios, técnicos, tickets y estados, posibilitando un seguimiento integral de cada incidencia. De esta forma, la empresa podrá mejorar la trazabilidad de los problemas, reducir los tiempos de resolución y obtener métricas de desempeño que apoyen la toma de decisiones.
 
+
+# CAPÍTULO III: METODOLOGÍA SEGUIDA
+
+a) Cómo se realizó el Trabajo Práctico
+
+El presente trabajo práctico se desarrolló de manera grupal, fomentando la colaboración y el trabajo coordinado entre los integrantes del equipo.
+Para la gestión del proyecto y el trabajo conjunto se utilizaron herramientas colaborativas que facilitaron la comunicación, el control de versiones y la organización de los archivos.
+
+Se empleó GitHub como plataforma principal para el control de versiones y gestión del código, lo que permitió la integración de los aportes de cada integrante y el seguimiento de los cambios realizados en el diseño de la base de datos.
+Además, se utilizó Google Drive para el almacenamiento y organización de la documentación, incluyendo reportes, diagramas y avances del proyecto, garantizando la accesibilidad y sincronización de los materiales entre todos los miembros del grupo.
+
+El trabajo se realizó siguiendo una metodología iterativa, donde se fueron desarrollando y ajustando los modelos de datos conforme se analizaban las necesidades del sistema de gestión de tickets. Cada etapa fue validada en conjunto, asegurando la coherencia entre el diseño conceptual, lógico y físico de la base de datos.
+
+b) Herramientas (Instrumentos y procedimientos)
+
+Para el desarrollo del sistema de gestión de tickets, se utilizaron diversas herramientas que facilitaron tanto el diseño conceptual y lógico como la implementación física de la base de datos. Entre las principales se destacan:
+
+ERDPlus: Utilizado para la creación del modelo Entidad–Relación (E–R), permitiendo representar de forma clara las entidades, atributos y relaciones necesarias para el sistema.
+
+Draw.io: Empleado para la elaboración de diagramas complementarios, tales como diagramas de flujo y casos de uso, que ayudaron a comprender los procesos de registro, asignación y resolución de tickets.
+
+SQL Server: Sistema de gestión de base de datos elegido para la implementación del modelo relacional. En esta herramienta se crearon las tablas, claves primarias y foráneas, así como las restricciones necesarias para garantizar la integridad de los datos.
+
+Diagrama Entidad–Relación (DER): Representó de manera visual las entidades del sistema (usuarios, técnicos, tickets, historial, entre otras) y sus respectivas relaciones.
+
+Modelo Relacional: Permitió traducir el modelo conceptual al nivel lógico mediante la definición de las tablas y sus campos con sus respectivos tipos de datos.
+
+Diccionario de Datos: Documentó cada campo, tipo de dato, clave y descripción de todas las tablas que conforman la base de datos, sirviendo como guía técnica para su correcta implementación y mantenimiento.
+
+
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS
 
 ## Diccionario de Datos
