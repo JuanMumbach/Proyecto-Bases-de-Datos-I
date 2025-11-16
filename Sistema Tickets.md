@@ -254,38 +254,12 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 
 # CAPÍTULO V: BIBLIOGRAFÍA DE CONSULTA
 
-### Tema 01 - Permisos y roles
-
-- **Introducción a los permisos (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/security/authentication-access/getting-started-with-database-engine-permissions?view=sql-server-ver16`
-- **Roles de nivel de base de datos (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-ver16`
-
-### Tema 02 - Procedimientos y funciones almacenadas
-
-- **Creación de Procedimientos (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver16`
-- **Creación de Funciones (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/t-sql/statements/create-function-transact-sql?view=sql-server-ver16`
-- **Diferencias entre procedimiento y función (Stack Overflow)**
-  - `https://es.stackoverflow.com/questions/95322/pl-sql-cu%C3%A1ndo-usar-funciones-y-cu%C3%A1ndo-procedimientos`
-
-### Tema 03 - Índices
-
-- **Guía de diseño de índices (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/sql-server-index-design-guide?view=sql-server-ver16`
-- **Descripción de índices agrupados y no agrupados (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/indexes/clustered-and-nonclustered-indexes-described?view=sql-server-ver16`
-- **Conceptos básicos de diseño de índices (SQL Shack)**
-  - `https://www.sqlshack.com/es/diseno-de-indices-de-sql-server-conceptos-basicos/`
-
-### Tema 04 - JSON
-
-- **Datos JSON en SQL Server (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/json/json-data-sql-server?view=sql-server-ver16`
-- **¿Qué es JSON? (MDN Web Docs)**
-  - `https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/JSON`
-- **Convertir consultas a JSON con 'FOR JSON' (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/json/format-query-results-as-json-with-for-json-sql-server?view=sql-server-ver16`
-- **Consultar JSON con 'OPENJSON' (Microsoft Learn)**
-  - `https://learn.microsoft.com/es-es/sql/relational-databases/json/parse-and-query-json-data-with-openjson-sql-server?view=sql-server-ver16`
+Tema 04 - Manejo de permisos a nivel de usuarios de base de datos
+Creación de Logins (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-login-transact-sql
+Creación de Roles (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-role-transact-sql
+Asignación de permisos con GRANT (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/grant-transact-sql
+Suplantación de permisos con EXECUTE AS (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/execute-as-transact-sql
