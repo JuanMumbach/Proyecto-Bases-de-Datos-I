@@ -82,89 +82,77 @@ El alcance del proyecto se limita al diseño e implementación de la base de dat
 
 # CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL
 
-A continuación, se detallan los conceptos teóricos fundamentales de SQL Server que se han investigado y aplicado directamente en el diseño de la base de datos del Sistema de Tickets.
+A continuación, se detallan los conceptos teóricos fundamentales de SQL Server que se han investigado y aplicado directamente en el diseño, optimización y seguridad de la base de datos del Sistema de Tickets.
 
-## TEMA 1: "Manejo de permisos a nivel de usuarios de base de datos"
+## TEMA 1: Procedimientos Almacenados (SPs) y Funciones (FN)
 
-La seguridad es un pilar fundamental de nuestro sistema. Para ello, se utiliza un esquema de permisos y roles para asegurar que los usuarios solo accedan a la información que les corresponde.
+Para encapsular la lógica de negocio, centralizar las operaciones y controlar la manipulación de datos, se utiliza lógica almacenada dentro de la base de datos.
 
-### Permisos
+### Procedimientos Almacenados (SPs)
 
-Un permiso es una autorización específica para realizar una acción (`SELECT`, `INSERT`, `UPDATE`, etc.) sobre un objeto (como una tabla).
+Son conjuntos de instrucciones SQL (SELECT, INSERT, UPDATE, DELETE) que se compilan y ejecutan como una única unidad. Son fundamentales para la seguridad y la integridad.
 
-### Roles
+### Aplicación en el Sistema de Tickets:
 
-Un rol es un "paquete" de permisos que se puede asignar a un usuario. En lugar de dar permisos uno por uno, creamos roles que definen perfiles de trabajo.
+- **`sp_InsertarTicket:`** Centraliza la lógica de creación de un ticket, ejecutando el INSERT en Tickets y el INSERT en Historial de forma atómica. Esto asegura que ambas acciones se realicen o ninguna se realice (Atomicidad).
 
-**Aplicación en el Sistema de Tickets:**
+- **`sp_ModificarEstadoTicket:`**  Permite cambiar el estado de un ticket y opcionalmente asignarlo a un técnico, registrando siempre el cambio en Historial.
 
-- **`Rol_UsuarioFinal`**: Este rol solo tendría permiso de `INSERT` sobre la tabla `Tickets` y `SELECT` _únicamente_ sobre los tickets y el historial donde su `id_usuario` coincida con el del registro. Esto impide que un usuario vea los tickets de otros.
-- **`Rol_Tecnico`**: Este rol tendría permisos de `SELECT` sobre todas las tablas `Tickets` y `Categoria_Problema`, y permisos de `UPDATE` sobre la tabla `Tickets` (para cambiar el `estado` o asignarse un `id_tecnico`). No tendría permiso para `DELETE`, garantizando la integridad.
-
-Este modelo asegura que los datos estén protegidos y que cada perfil (usuario y técnico) opere solo dentro de su ámbito.
-
-## TEMA 2: "Procedimientos y funciones almacenadas"
-
-Para encapsular la lógica de negocio, centralizar operaciones y mejorar la seguridad, se utiliza lógica almacenada dentro de la base de datos.
-
-### Procedimientos Almacenados (SP)
-
-Son conjuntos de instrucciones SQL que se ejecutan como una unidad.
-
-**Aplicación en el Sistema de Tickets:**
-Se crearía un procedimiento `sp_CrearNuevoTicket`. Cuando un usuario crea un ticket, la aplicación no ejecuta dos `INSERT` por separado. En su lugar, llama a este procedimiento pasándole los datos (ej. `id_usuario`, `descripcion`, `id_categoria`).
-El SP se encarga de:
-
-1.  Iniciar una transacción.
-2.  Hacer `INSERT` en la tabla `Tickets`.
-3.  Hacer `INSERT` en la tabla `Historial` (con el comentario "Ticket Creado").
-4.  Confirmar la transacción.
-
-Esto garantiza la **atomicidad** (o se hacen las dos inserciones, o no se hace ninguna) y es más seguro, ya que el `Rol_UsuarioFinal` solo tendría permiso de `EXECUTE` sobre este SP, y no permiso de `INSERT` directo sobre las tablas.
+- **`Seguridad:`**  Permite que un usuario limitado tenga permiso de EXECUTE sobre el SP, sin tener permisos directos de INSERT sobre las tablas subyacentes.
 
 ### Funciones Almacenadas (FN)
 
-Son rutinas que siempre devuelven un valor y no pueden modificar datos.
+Son rutinas que siempre devuelven un valor (escalar o tabla) y, por regla general, no pueden modificar datos (no pueden ejecutar DML como INSERT/UPDATE).
 
-**Aplicación en el Sistema de Tickets:**
-Se podría crear una función `fn_ContarTicketsAbiertos(@id_tecnico)` que recibe un ID de técnico y devuelve un número entero. Esta función es ideal para un dashboard, permitiendo saber rápidamente cuántos tickets tiene asignados un técnico sin necesidad de ejecutar una consulta compleja desde la aplicación.
+### Aplicación en el Sistema de Tickets:
 
-## TEMA 3: "Optimización de consultas a través de índices"
+- **`fn_ContarTicketsActivosPorTecnico:`** Permite a un reporte calcular rápidamente cuántos tickets abiertos o en proceso tiene un técnico, sin la complejidad de escribir la consulta de agregación en la aplicación. Son ideales para dashboards o reportes sencillos.
 
-Un sistema de tickets puede crecer a miles de registros. Sin una correcta optimización, las consultas se volverían lentas. Los índices son la principal herramienta para garantizar el rendimiento.
+- **`fn_ObtenerPrioridadDeTicket:`** Se utiliza para devolver la prioridad de un ticket, permitiendo un uso directo en sentencias SELECT o WHERE.
 
-### Índices Agrupados (Clustered)
+## TEMA 2: Índices y Optimización
 
-Definen el orden físico de almacenamiento de la tabla. Solo puede haber uno.
+Un sistema de tickets puede crecer a más de un millón de registros. Los índices son la principal herramienta para garantizar que el sistema mantenga el rendimiento a pesar del volumen de datos.
 
-**Aplicación en el Sistema de Tickets:**
-Por defecto, la `PRIMARY KEY` (`id_ticket`) de la tabla `Tickets` se crea como el **índice agrupado**. Esto significa que la tabla está físicamente ordenada por el ID del ticket. Es la forma más rápida posible de buscar un ticket específico por su número (`WHERE id_ticket = 123`).
+### Concepto de Plan de Ejecución
+
+El motor de SQL evalúa el costo de ejecutar una consulta y genera un Plan de Ejecución. Nuestro objetivo es que el costo de búsqueda sea mínimo, forzando un Index Seek en lugar de un costoso Table Scan (escaneo de toda la tabla).
 
 ### Índices No Agrupados (Non-Clustered)
 
-Son estructuras separadas, como el índice de un libro, que contienen un puntero a la fila de datos.
+Son estructuras separadas que contienen un puntero a la fila de datos. Son cruciales para las búsquedas.
 
-**Aplicación en el Sistema de Tickets:**
-Es **fundamental** crear un **índice no agrupado** en la columna `id_usuario` de la tabla `Tickets`. Cuando un usuario inicie sesión y el sistema ejecute la consulta "mostrar todos mis tickets" (`WHERE id_usuario = 1`), este índice permite al motor encontrar esos tickets instantáneamente, sin tener que escanear la tabla `Tickets` completa. También se crearían índices en `id_tecnico` y `id_categoria` por razones similares.
+### Aplicación en el Sistema de Tickets:
 
-## TEMA 4: "Manejo de tipos de datos JSON"
+- **`Optimización de Búsqueda por Tiempo:`** Se creó un índice no agrupado en la columna fecha_creacion de la tabla Ticket.
 
-Si bien nuestro diseño es puramente relacional y normalizado, SQL Server ofrece flexibilidad para manejar datos semi-estructurados usando JSON.
+- **`Prueba de Rendimiento:`** Al buscar tickets en un rango de fechas (WHERE fecha_creacion BETWEEN 'fecha1' AND 'fecha2'), el índice permite al motor de SQL ir directamente a los datos relevantes, reduciendo el costo de la consulta del 99% a una fracción mínima.
 
-### ¿Qué es JSON?
+## TEMA 3: Transacciones
 
-Es un formato de texto ligero para intercambiar datos, estándar en aplicaciones web y APIs.
+Las transacciones aseguran que las operaciones complejas mantengan la integridad y la fiabilidad de los datos bajo el principio de Atomicidad (ACID).
 
-### ¿Por qué se utiliza JSON?
+### Atomicidad y Control de Fallos
 
-Permite almacenar datos flexibles sin una estructura fija.
+La Atomicidad garantiza que un conjunto de operaciones DML (UPDATE, INSERT) se realicen completamente o se reviertan completamente.
 
-**Aplicación en el Sistema de Tickets:**
-Aunque no se implementó en el esquema principal, una mejora a futuro podría ser añadir una columna `DatosAdicionales` (de tipo `NVARCHAR(MAX)`) en la tabla `Historial`.
-Cuando se crea un ticket (`INSERT` en `Historial`), se podría almacenar información contextual como un JSON:
-`{ "navegador": "Chrome 120.0", "SO": "Windows 11", "IP": "200.51.10.3" }`
+### Aplicación en el Sistema de Tickets:
 
-SQL Server tiene funciones nativas para consultar estos datos JSON si fuera necesario, ofreciendo una gran flexibilidad para almacenar información de diagnóstico sin tener que agregar 10 columnas nuevas a la tabla.
+- **`Prueba de Éxito (COMMIT`** Se demuestra que la asignación de un ticket (UPDATE Ticket) y el registro de esa acción (INSERT Historial) se confirman juntos (COMMIT), asegurando la Durabilidad.
+
+- **`Prueba de Fallo (ROLLBACK):`** Se fuerza un error (ej., violando la llave foránea con un id_usuario = 999). El bloque CATCH ejecuta un ROLLBACK TRANSACTION, que anula todos los pasos intermedios exitosos, evitando que la base de datos quede en un estado inconsistente.
+
+## TEMA 4: Permisos
+
+La seguridad se implementa para controlar el acceso a los datos. El modelo se basa en el Principio de Mínimo Privilegio.
+
+### Permisos y Roles
+
+- **`Usuario Limitado (UsuarioFinal_Lectura):`** Se demuestra que este usuario falla al intentar un INSERT directo en la tabla Ticket (protegiendo los datos).
+
+- **`Permiso de EXECUTE:`** Se le otorga a este mismo usuario el permiso EXECUTE sobre el SP sp_CrearNuevoTicket.
+
+- **`Prueba Central:`** El usuario puede insertar datos de forma exitosa usando el SP, aunque no tiene permiso directo de INSERT sobre la tabla. Esto demuestra que la lógica de negocio se ejecuta de forma segura y controlada, sin comprometer la tabla subyacente.
 
 ---
 
