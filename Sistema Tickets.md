@@ -26,15 +26,59 @@ Pavon, Máximo David Octavio.
 
 # CAPÍTULO I: INTRODUCCIÓN
 
-Este proyecto se enfoca en el diseño e implementación de una base de datos para la gestión de Tickets que puede ser aplicado tanto a clientes externos o trabajadores internos. El propósito es resolver los problemas de gestión de tickets, su seguimiento y su finalización. El sistema que se desarrollará está orientado a optimizar estos procesos, centralizando toda la información clave en una base de datos relacional.
+a) Tema
+
+Diseño e Implementación de una Base de Datos Relacional para un Sistema de Gestión de Tickets de Soporte Técnico.
+
+b) Definición o planteamiento del Problema
 
 En la actualidad, las empresas dependen en gran medida de la tecnología para el desarrollo de sus operaciones. Esto genera la necesidad de contar con un área de soporte técnico capaz de atender incidencias de hardware, software, redes o servicios internos de manera rápida y ordenada.
 
 El uso de sistemas o software no dedicado a este objetivo, u organizaciones que registran estos incidentes de forma manual (a través de correos electrónicos, llamadas telefónicas o incluso mensajes informales) provoca desorganización, pérdida de información, retrasos en la atención y dificultad para medir la eficiencia del área de soporte.
 
-Para dar respuesta a esta problemática, se plantea el desarrollo de un sistema de gestión de tickets de soporte técnico. Este sistema permitirá a los usuarios generar solicitudes de asistencia (tickets), que serán asignadas a técnicos responsables y categorizadas según su tipo y prioridad. Cada ticket contará con un historial de acciones que documente las actividades realizadas hasta su resolución.
+c) Objetivo del Trabajo Práctico
 
-El objetivo principal es diseñar una base de datos relacional que organice de manera eficiente la información de usuarios, técnicos, tickets y estados, posibilitando un seguimiento integral de cada incidencia. De esta forma, la empresa podrá mejorar la trazabilidad de los problemas, reducir los tiempos de resolución y obtener métricas de desempeño que apoyen la toma de decisiones.
+i. Preguntas Generales
+
+¿Cómo podemos optimizar la gestión de incidencias, el seguimiento de técnicos y la trazabilidad de las soluciones en un área de soporte?
+
+ii. Preguntas Específicas
+
+¿Cómo podemos registrar una incidencia de forma unificada?
+
+¿Cómo asignamos un técnico responsable a un ticket?
+
+¿Cómo evitamos que un ticket quede "olvidado" sin resolver?
+
+¿Cómo puede un usuario consultar el estado de sus tickets?
+
+¿Cómo medimos el tiempo de respuesta y la eficiencia de los técnicos?
+
+iii. Objetivos Generales
+
+Dar solución a la problemática de la falta de un sistema centralizado para la gestión de incidencias, mejorando la trazabilidad y los tiempos de respuesta del área de soporte.
+
+iv. Objetivos Específicos
+
+Centralizar la creación de tickets de soporte.
+
+Optimizar la asignación de tickets a técnicos según su especialidad.
+
+Permitir un seguimiento integral de cada incidencia a través de un historial.
+
+Obtener métricas de desempeño que apoyen la toma de decisiones.
+
+d) Descripción del Sistema
+
+El sistema de gestión de tickets permitirá a los usuarios (empleados o clientes externos) generar solicitudes de asistencia (tickets). Estos serán asignados a técnicos responsables y categorizados según su tipo y prioridad.
+
+El sistema cuenta con perfiles de Usuario (quien crea el ticket) y Técnico (quien lo resuelve). Cada técnico puede tener una o más Especialidades, y cada ticket se asigna a una Categoría de Problema. La tabla central Tickets vincula al usuario, al técnico y la categoría.
+
+La tabla Historial es fundamental, ya que documenta cada acción (creación, comentario, cambio de estado, asignación) realizada sobre un ticket, garantizando una trazabilidad completa desde que se abre hasta que se cierra.
+
+e) Alcance
+
+El alcance del proyecto se limita al diseño e implementación de la base de datos relacional. Incluye el script de creación de tablas, el diccionario de datos y la investigación de conceptos aplicados (Roles, SPs, Índices, JSON).
 
 # CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL
 
@@ -251,3 +295,15 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 | registrado_por_usuario | INT          | 10       | SÍ      | FK    | ID del usuario que registró el evento (si aplica).               |
 | registrado_por_tecnico | INT          | 10       | SÍ      | FK    | ID del técnico que registró el evento (si aplica).               |
 | id_ticket              | INT          | 10       | NO      | FK    | ID del ticket al que pertenece este historial.                   |
+
+# CAPÍTULO V: BIBLIOGRAFÍA DE CONSULTA
+
+Tema 04 - Manejo de permisos a nivel de usuarios de base de datos
+Creación de Logins (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-login-transact-sql
+Creación de Roles (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-role-transact-sql
+Asignación de permisos con GRANT (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/grant-transact-sql
+Suplantación de permisos con EXECUTE AS (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/execute-as-transact-sql

@@ -1,0 +1,205 @@
+/*
+================================================================================================
+|| PROYECTO: SISTEMA DE GESTIÓN DE TICKETS
+|| ASIGNATURA: BASE DE DATOS I
+|| TEMA 4: Manejo de permisos a nivel de usuarios de base de datos
+|| AUTORES: Cabrera, Fernandez, Mumbach, Pavon
+|| FECHA: 15/11/2025
+================================================================================================
+
+-- Tareas a realizar (según consigna):
+-- 1) Permisos a nivel de usuarios:
+--  * Crear dos usuarios de base de datos (Admin y solo lectura).
+--  * Al usuario con permiso de solo lectura, darle permiso de ejecución sobre un SP.
+--  * Realizar INSERT con SQL directo (debe fallar).
+--  * Realizar INSERT a través del SP (debe funcionar).
+-- 2) Permisos a nivel de roles:
+--  * Crear dos usuarios de base de datos.
+--  * Crear un rol que solo permita la lectura de una tabla.
+--  * Asignar el rol a un usuario.
+--  * Verificar que solo el usuario con rol puede leer la tabla.
+*/
+
+-- -------------------------------------------------------------------
+-- 0. CONFIGURACIÓN INICIAL Y LIMPIEZA
+-- -------------------------------------------------------------------
+-- (Se asume que el usuario que ejecuta esto es SYSADMIN)
+SELECT is_srvrolemember('sysadmin'); -- Debe devolver 1
+
+
+USE SistemaTicketsDB;   
+GO
+
+PRINT '--- 0. Limpiando demos anteriores (si existen)... ---';
+
+-- Limpieza de usuarios
+IF USER_ID('AdminTickets') IS NOT NULL DROP USER AdminTickets;
+IF USER_ID('UsuarioFinal_Lectura') IS NOT NULL DROP USER UsuarioFinal_Lectura;
+IF USER_ID('UsuarioConRol') IS NOT NULL DROP USER UsuarioConRol;
+IF USER_ID('UsuarioSinRol') IS NOT NULL DROP USER UsuarioSinRol;
+
+-- Limpieza de logins
+IF SUSER_ID('AdminTicketsLogin') IS NOT NULL DROP LOGIN AdminTicketsLogin;
+IF SUSER_ID('LecturaLogin') IS NOT NULL DROP LOGIN LecturaLogin;
+IF SUSER_ID('LoginConRol') IS NOT NULL DROP LOGIN LoginConRol;
+IF SUSER_ID('LoginSinRol') IS NOT NULL DROP LOGIN LoginSinRol;
+
+-- Limpieza de roles
+IF DATABASE_PRINCIPAL_ID('Rol_Ver_Categorias') IS NOT NULL DROP ROLE Rol_Ver_Categorias;
+
+-- Limpieza del Stored Procedure (para que el script sea re-ejecutable)
+IF OBJECT_ID('sp_CrearNuevoTicket', 'P') IS NOT NULL
+    DROP PROCEDURE sp_CrearNuevoTicket;
+GO
+
+-------------------------------------------------------------------------------------------------
+PRINT '--- Creando Stored Procedure sp_CrearNuevoTicket (con correccion dbo.)... ---';
+GO
+
+CREATE PROCEDURE sp_CrearNuevoTicket
+    @id_usuario_creador INT,
+    @id_categoria_problema INT,
+    @descripcion_problema VARCHAR(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @NuevoTicketID INT;
+
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        
+        -- 1. Insertar en Tickets (CON "dbo." CORREGIDO)
+        INSERT INTO dbo.Ticket 
+            (descripcion, prioridad, estado, id_usuario, id_tecnico, id_categoria)
+        VALUES
+            (@descripcion_problema, 'Media', 'Abierto', @id_usuario_creador, NULL, @id_categoria_problema);
+
+        -- 2. Capturar el ID
+        SET @NuevoTicketID = SCOPE_IDENTITY();
+
+        -- 3. Insertar en Historial (CON "dbo." CORREGIDO)
+        INSERT INTO dbo.Historial 
+            (comentario, id_ticket, registrado_por_usuario, registrado_por_tecnico)
+        VALUES 
+            ('Ticket creado por el usuario vía SP.', @NuevoTicketID, @id_usuario_creador, NULL);
+
+        COMMIT TRANSACTION;
+        PRINT '-> SP: Ticket creado exitosamente.';
+
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        PRINT '-> SP: Error, se deshizo la operación.';
+        THROW; -- Re-lanza el error
+    END CATCH
+END
+GO
+
+PRINT '--- SP Creado. Iniciando Tarea 1... ---';
+GO
+
+-- -------------------------------------------------------------------
+-- TAREA 1.1: Creación de Usuarios con Permisos Diferenciados
+-- -------------------------------------------------------------------
+
+-- 1.1.1 Crear usuario con permisos de administrador
+PRINT 'Creando [AdminTicketsLogin] y [AdminTickets] (db_owner)...';
+CREATE LOGIN AdminTicketsLogin WITH PASSWORD = 'PasswordAdmin123';
+CREATE USER AdminTickets FOR LOGIN AdminTicketsLogin;
+ALTER ROLE db_owner ADD MEMBER AdminTickets; -- Otorgar permisos completos
+GO
+
+-- 1.1.2 Crear usuario con permisos de solo lectura
+PRINT 'Creando [LecturaLogin] y [UsuarioFinal_Lectura] (SELECT en Tickets)...';
+CREATE LOGIN LecturaLogin WITH PASSWORD = 'PasswordLectura123';
+CREATE USER UsuarioFinal_Lectura FOR LOGIN LecturaLogin;
+GRANT SELECT ON dbo.Ticket TO UsuarioFinal_Lectura; -- Permitir solo lecturas en Tickets (CORREGIDO A PLURAL y con dbo.)
+GO
+
+-- -------------------------------------------------------------------
+-- TAREA 1.2: Asignación de Permisos de Ejecución de SP
+-- -------------------------------------------------------------------
+PRINT 'Otorgando permiso EXECUTE sobre [sp_CrearNuevoTicket] a [UsuarioFinal_Lectura]...';
+-- Otorgar permiso de ejecución al usuario de solo lectura (CORREGIDO SIN "PROCEDURE")
+GRANT EXECUTE ON sp_CrearNuevoTicket TO UsuarioFinal_Lectura;
+GO -- <- Se agregó un GO aquí para separar el lote
+
+-- Prueba 1: UsuarioFinal_Lectura intenta insertar directamente (DEBE FALLAR)
+PRINT '--- PRUEBA 1: INSERT directo como [UsuarioFinal_Lectura] (debe fallar)... ---';
+EXECUTE AS USER = 'UsuarioFinal_Lectura'; -- Simular el contexto de UsuarioFinal_Lectura
+
+    -- (Asumimos que el usuario 1 y la categoría 1 existen por el script de INSERT)
+    INSERT INTO dbo.Ticket (descripcion, id_usuario, id_categoria) -- (CORREGIDO A PLURAL y con dbo.)
+    VALUES ('Prueba de INSERT directo', 1, 1);
+
+REVERT; -- Volver a ser admin
+GO
+PRINT '--- (Fallo de INSERT directo esperado) ---';
+GO
+
+-- Prueba 2: UsuarioFinal_Lectura inserta a través del SP (DEBE FUNCIONAR)
+PRINT '--- PRUEBA 2: INSERT vía SP como [UsuarioFinal_Lectura] (debe funcionar)... ---';
+EXECUTE AS USER = 'UsuarioFinal_Lectura';
+
+    -- (Asumimos que el usuario 1 y la categoría 1 existen por el script de INSERT)
+    EXEC sp_CrearNuevoTicket 
+        @id_usuario_creador = 1, 
+        @id_categoria_problema = 1, 
+        @descripcion_problema = 'Ticket creado exitosamente via SP por usuario de solo lectura';
+    
+    -- Verificamos el ticket que acabamos de crear (CORREGIDO A PLURAL y con dbo.)
+    SELECT * FROM dbo.Ticket WHERE descripcion LIKE '%via SP%';
+
+REVERT; -- Volver a ser admin
+GO
+PRINT '--- (Inserción vía SP exitosa) ---';
+GO
+
+-- -------------------------------------------------------------------
+-- TAREA 2: Creación de Roles
+-- -------------------------------------------------------------------
+
+-- 2.1 Creación del rol que solo permite lectura en Categoria_Problema
+PRINT 'Creando rol [Rol_Ver_Categorias]...';
+CREATE ROLE Rol_Ver_Categorias;
+GRANT SELECT ON dbo.Categoria_Problema TO Rol_Ver_Categorias; -- (con dbo.)
+GO
+
+-- 2.2 Creación de usuarios adicionales
+PRINT 'Creando [LoginConRol] y [LoginSinRol]...';
+CREATE LOGIN LoginConRol WITH PASSWORD = 'PasswordRol1';
+CREATE USER UsuarioConRol FOR LOGIN LoginConRol;
+
+CREATE LOGIN LoginSinRol WITH PASSWORD = 'PasswordRol2';
+CREATE USER UsuarioSinRol FOR LOGIN LoginSinRol;
+GO
+
+-- 2.3 Asignar el rol a UsuarioConRol
+PRINT 'Asignando [Rol_Ver_Categorias] a [UsuarioConRol]...';
+ALTER ROLE Rol_Ver_Categorias ADD MEMBER UsuarioConRol;
+GO
+
+-- -------------------------------------------------------------------
+-- TAREA 2: Pruebas de Roles
+-- -------------------------------------------------------------------
+
+-- Prueba 3: UsuarioConRol intenta leer Categoria_Problema (DEBE FUNCIONAR)
+PRINT '--- PRUEBA 3: SELECT como [UsuarioConRol] (debe funcionar)... ---';
+EXECUTE AS USER = 'UsuarioConRol';
+    SELECT * FROM dbo.Categoria_Problema; -- (con dbo.)
+REVERT;
+GO
+PRINT '--- (SELECT de UsuarioConRol exitoso) ---';
+GO
+
+-- Prueba 4: UsuarioSinRol intenta leer Categoria_Problema (DEBE FALLAR)
+PRINT '--- PRUEBA 4: SELECT como [UsuarioSinRol] (debe fallar)... ---';
+EXECUTE AS USER = 'UsuarioSinRol';
+    SELECT * FROM dbo.Categoria_Problema; -- (con dbo.)
+REVERT;
+GO
+PRINT '--- (Fallo de SELECT de UsuarioSinRol esperado) ---';
+GO
+
+PRINT '--- Fin del script Tarea 4 (Permisos y Roles) ---';
