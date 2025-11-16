@@ -126,7 +126,7 @@ SQL Server tiene funciones nativas para consultar estos datos JSON si fuera nece
 
 # CAPÍTULO III: METODOLOGÍA SEGUIDA
 
-a) Cómo se realizó el Trabajo Práctico
+**a) Cómo se realizó el Trabajo Práctico**
 
 El presente trabajo práctico se desarrolló de manera grupal, fomentando la colaboración y el trabajo coordinado entre los integrantes del equipo.
 Para la gestión del proyecto y el trabajo conjunto se utilizaron herramientas colaborativas que facilitaron la comunicación, el control de versiones y la organización de los archivos.
@@ -136,7 +136,7 @@ Además, se utilizó Google Drive para el almacenamiento y organización de la d
 
 El trabajo se realizó siguiendo una metodología iterativa, donde se fueron desarrollando y ajustando los modelos de datos conforme se analizaban las necesidades del sistema de gestión de tickets. Cada etapa fue validada en conjunto, asegurando la coherencia entre el diseño conceptual, lógico y físico de la base de datos.
 
-b) Herramientas (Instrumentos y procedimientos)
+**b) Herramientas (Instrumentos y procedimientos)**
 
 Para el desarrollo del sistema de gestión de tickets, se utilizaron diversas herramientas que facilitaron tanto el diseño conceptual y lógico como la implementación física de la base de datos. Entre las principales se destacan:
 
