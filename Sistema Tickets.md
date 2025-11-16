@@ -286,12 +286,35 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 
 # CAPÍTULO V: BIBLIOGRAFÍA DE CONSULTA
 
-Tema 04 - Manejo de permisos a nivel de usuarios de base de datos
-Creación de Logins (Microsoft Learn)
+## Tema 03 - Manejo de transacciones y transacciones anidadas
+
+* **Material de estudio de la cátedra:** Base de Datos I - FaCENA UNNE.
+* **Date, C.J. (Christopher J. Date)** *Introducción a los Sistemas de Bases de Datos.* (Referencia fundamental sobre las propiedades ACID).
+* **Microsoft Learn.** Documentación de Transact-SQL (T-SQL): Cláusulas BEGIN TRANSACTION, COMMIT y ROLLBACK.
+
+### BEGIN TRANSACTION       
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/begin-transaction-transact-sql
+
+### COMMIT TRANSACTION
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/commit-transaction-transact-sql
+
+### ROLLBACK TRANSACTION
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/rollback-transaction-transact-sql
+
+### Bloque TRY...CATCH
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/try-catch-transact-sql
+
+
+## Tema 04 - Manejo de permisos a nivel de usuarios de base de datos
+
+### Creación de Logins (Microsoft Learn)
 https://learn.microsoft.com/es-es/sql/t-sql/statements/create-login-transact-sql
-Creación de Roles (Microsoft Learn)
+
+### Creación de Roles (Microsoft Learn)
 https://learn.microsoft.com/es-es/sql/t-sql/statements/create-role-transact-sql
-Asignación de permisos con GRANT (Microsoft Learn)
+
+### Asignación de permisos con GRANT (Microsoft Learn)
 https://learn.microsoft.com/es-es/sql/t-sql/statements/grant-transact-sql
-Suplantación de permisos con EXECUTE AS (Microsoft Learn)
+
+### Suplantación de permisos con EXECUTE AS (Microsoft Learn)
 https://learn.microsoft.com/es-es/sql/t-sql/statements/execute-as-transact-sql
