@@ -56,12 +56,6 @@ Pavon, Máximo David Octavio.
 
 ---
 
-# CAPÍTULO I: INTRODUCCIÓN 04 - Manejo de permisos a nivel de usuarios de base de datos
-
-)
-
----
-
 # CAPÍTULO I: INTRODUCCIÓN
 
 ## a) Tema
