@@ -269,7 +269,7 @@ BEGIN
         @descripcion_problema = 'Pantalla azul al iniciar (Lote 2)';
     SET @Counter = @Counter + 1;
 END;
-GO
+
 
 PRINT '-> Lote 2 insertado. (El SP SÍ creó el historial para estos tickets)';
 SELECT * FROM dbo.Ticket WHERE descripcion LIKE '%(Lote 2)%'; -- CORREGIDO A PLURAL

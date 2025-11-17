@@ -336,6 +336,39 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 
 A continuación, se presentan los hallazgos y resultados de la implementación de cada tema técnico asignado, documentando el comportamiento observado y los resultados de las pruebas.
 
+### TEMA 1: Procedimientos y funciones almacenadas
+
+(Informe extraído de 'Tema01_Procedimientos_y_funciones_almacenadas.md')
+
+Se implementó lógica de negocio directamente en la base de datos mediante el uso de SPs y FNs.
+
+Creación de Procedimientos (CRUD): (Tarea 1) Se crearon sp_CrearNuevoTicket, sp_ModificarTicket y sp_BorrarTicketLogico [cite]. Estos SPs aseguran que todas las operaciones registren un evento en la tabla Historial, garantizando la trazabilidad y la atomicidad.
+
+Creación de Funciones: (Tarea 4) Se desarrollaron tres funciones escalares: fn_ObtenerNombreUsuario, fn_CalcularAntiguedadTicket y fn_ContarTicketsAbiertosPorTecnico [cite].
+
+Pruebas de Ejecución: Se realizaron las pruebas de carga (Lote 1 vs Lote 2), UPDATE y DELETE invocando a los SPs, y se probaron las funciones.
+
+A continuación, se documenta el comportamiento de cada prueba:
+
+Prueba 1: Lote 1 (INSERT Directo) vs. Lote 2 (Stored Procedure)
+
+Explicación: Se ejecutó la "Prueba de Carga de Datos" (Tarea 2) . Se insertaron 3 tickets usando INSERT directo (Lote 1) y 3 tickets usando el sp_CrearNuevoTicket (Lote 2).
+La captura de pantalla demuestra la ventaja clave del SP: al consultar el historial, solo los tickets creados por el SP (ID 9, 10, 11) generaron un registro de auditoría, cumpliendo la regla de negocio, mientras que los tickets del Lote 1 (ID 6, 7, 8) no lo hicieron.
+
+![Prueba 1](doc/pruebas/tema1/prueba1.png)
+
+Prueba 2: Pruebas de UPDATE y DELETE (Tarea 3)
+
+Explicación: Se ejecutó la "Prueba de Funcionamiento". Se invocó a sp_ModificarTicket para asignar un ticket del Lote 1 a un técnico y cambiar su estado. Luego, se invocó a sp_BorrarTicketLogico para "borrar" un ticket del Lote 2.
+
+![Prueba 2](doc/pruebas/tema1/prueba2.png)
+
+Prueba 3: Pruebas de Funciones (Tarea 4)
+
+Explicación: Se ejecutó la "Prueba de Funciones" [cite] para demostrar cómo las funciones encapsulan cálculos. Se llamó a fn_ObtenerNombreUsuario (ID 1), fn_CalcularAntiguedadTicket (para el primer ticket) y fn_ContarTicketsAbiertosPorTecnico (para el técnico ID 1).
+
+![Prueba 3](doc/pruebas/tema1/prueba3.png)
+
 ### Tema 4: Manejo de permisos a nivel de usuarios de base de datos
 
 (Informe extraído de 'tema4_manejo_de_permisos.md') [cite]
