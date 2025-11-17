@@ -350,24 +350,26 @@ Pruebas de Ejecución: Se realizaron las pruebas de carga (Lote 1 vs Lote 2), UP
 
 A continuación, se documenta el comportamiento de cada prueba:
 
-Prueba 1: Lote 1 (INSERT Directo) vs. Lote 2 (Stored Procedure)
+### Prueba 1: Lote 1 (INSERT Directo) vs. Lote 2 (Stored Procedure)
 
 Explicación: Se ejecutó la "Prueba de Carga de Datos" (Tarea 2) . Se insertaron 3 tickets usando INSERT directo (Lote 1) y 3 tickets usando el sp_CrearNuevoTicket (Lote 2).
 La captura de pantalla demuestra la ventaja clave del SP: al consultar el historial, solo los tickets creados por el SP (ID 9, 10, 11) generaron un registro de auditoría, cumpliendo la regla de negocio, mientras que los tickets del Lote 1 (ID 6, 7, 8) no lo hicieron.
 
 ![Prueba 1](doc/pruebas/tema1/prueba1.png)
 
-Prueba 2: Pruebas de UPDATE y DELETE (Tarea 3)
+### Prueba 2: Pruebas de UPDATE y DELETE (Tarea 3)
 
 Explicación: Se ejecutó la "Prueba de Funcionamiento". Se invocó a sp_ModificarTicket para asignar un ticket del Lote 1 a un técnico y cambiar su estado. Luego, se invocó a sp_BorrarTicketLogico para "borrar" un ticket del Lote 2.
 
 ![Prueba 2](doc/pruebas/tema1/prueba2.png)
 
-Prueba 3: Pruebas de Funciones (Tarea 4)
+### Prueba 3: Pruebas de Funciones (Tarea 4)
 
 Explicación: Se ejecutó la "Prueba de Funciones" [cite] para demostrar cómo las funciones encapsulan cálculos. Se llamó a fn_ObtenerNombreUsuario (ID 1), fn_CalcularAntiguedadTicket (para el primer ticket) y fn_ContarTicketsAbiertosPorTecnico (para el técnico ID 1).
 
 ![Prueba 3](doc/pruebas/tema1/prueba3.png)
+
+---
 
 ### Tema 4: Manejo de permisos a nivel de usuarios de base de datos
 
