@@ -97,9 +97,6 @@ Obtener el menor tiempo total de los tres escenarios.
 
 Este es el diseño de índice óptimo para consultas repetitivas que utilizan siempre las mismas columnas.
 
-
-
-
 IV. Comparación de Resultados
 
 La siguiente tabla debe completarse con los valores obtenidos por STATISTICS IO/TIME:
@@ -119,13 +116,3 @@ Sin índices, las búsquedas por período realizan recorridos completos de la ta
 Un índice no agrupado sobre fecha_creacion mejora el rendimiento, permitiendo búsquedas selectivas.
 
 Un índice cubriente es la opción más eficiente, ya que evita acceder a la tabla y reduce al mínimo el costo de lectura.
-
-
-Bibliografía
-Elmasri, R., & Navathe, S. Fundamentals of Database Systems. Pearson.
-Silberschatz, A., Korth, H., & Sudarshan. Database System Concepts. McGraw-Hill.
-Date, C.J. An Introduction to Database Systems. Addison-Wesley.
-Microsoft SQL Server Documentation. https://learn.microsoft.com/sql
-Ben-Gan, I. Inside SQL Server: T-SQL Querying. Microsoft Press.
-Delaney, K. SQL Server Internals. Microsoft Press.
-

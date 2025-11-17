@@ -497,7 +497,34 @@ https://learn.microsoft.com/es-es/sql/t-sql/language-elements/while-transact-sql
 
 ### Función DATEDIFF (Microsoft Learn)
 
-https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
+## https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
+
+## Tema 02 - Índices y Optimización (SQL Server)
+
+### Bibliografía General del Tema
+
+- **Elmasri, R., & Navathe, S.** _Fundamentals of Database Systems._ Pearson.
+- **Silberschatz, A., Korth, H., & Sudarshan.** _Database System Concepts._ McGraw-Hill.
+- **Date, C.J.** _An Introduction to Database Systems._ Addison-Wesley.
+- **Microsoft SQL Server Documentation.** https://learn.microsoft.com/sql
+- **Ben-Gan, I.** _Inside SQL Server: T-SQL Querying._ Microsoft Press.
+- **Delaney, K.** _SQL Server Internals._ Microsoft Press.
+
+### Documentación específica de índices (Microsoft)
+
+- **Índices en SQL Server (Microsoft Learn)**  
+  https://learn.microsoft.com/es-es/sql/relational-databases/sql-server-index-design-guide
+
+- **Índices no agrupados (Nonclustered)**  
+  https://learn.microsoft.com/es-es/sql/relational-databases/indexes/clustered-and-nonclustered-indexes-described
+
+- **Índices con INCLUDE (Index with Included Columns)**  
+  https://learn.microsoft.com/es-es/sql/relational-databases/indexes/create-indexes-with-included-columns
+
+- **Plan de ejecución y análisis de rendimiento**  
+  https://learn.microsoft.com/es-es/sql/relational-databases/performance/how-to-read-query-execution-plans
+
+---
 
 ## Tema 03 - Manejo de transacciones y transacciones anidadas
 
@@ -519,7 +546,7 @@ https://learn.microsoft.com/es-es/sql/t-sql/language-elements/rollback-transacti
 
 ### Bloque TRY...CATCH
 
-https://learn.microsoft.com/es-es/sql/t-sql/language-elements/try-catch-transact-sql
+## https://learn.microsoft.com/es-es/sql/t-sql/language-elements/try-catch-transact-sql
 
 ## Tema 04 - Manejo de permisos a nivel de usuarios de base de datos
 
