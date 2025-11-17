@@ -1,6 +1,6 @@
 /* ==========================================================
-   TEMA 02 - OPTIMIZACIÓN DE CONSULTAS MEDIANTE ÍNDICES
-   Tabla: Tickets (Sistema de Gestión de Tickets)
+   TEMA 02 - OPTIMIZACIï¿½N DE CONSULTAS MEDIANTE ï¿½NDICES
+   Tabla: Ticket (Sistema de Gestiï¿½n de Tickets)
    Integrador - Bases de Datos I
    ========================================================== */
 
@@ -8,16 +8,16 @@
 USE SistemaTickets;   -- Cambiar si usaste otro nombre de BD
 GO
 
--- 2) Verificar que exista la tabla Tickets
-IF OBJECT_ID('dbo.Tickets', 'U') IS NULL
+-- 2) Verificar que exista la tabla Ticket
+IF OBJECT_ID('dbo.Ticket', 'U') IS NULL
 BEGIN
-    RAISERROR('La tabla dbo.Tickets no existe. Revisar script_DDL_SistemaTickets.', 16, 1);
+    RAISERROR('La tabla dbo.Ticket no existe. Revisar script_DDL_SistemaTickets.', 16, 1);
     RETURN;
 END
 GO
 
 /* ==========================================================
-   CARGA MASIVA SOBRE TICKETS (1.000.000 REGISTROS)
+   CARGA MASIVA SOBRE TICKET (1.000.000 REGISTROS)
    Requisito del integrador:
    - Tabla con campo fecha
    - Script automatizable
@@ -32,7 +32,7 @@ GO
     FROM sys.all_objects a
     CROSS JOIN sys.all_objects b
 )
-INSERT INTO dbo.Tickets (
+INSERT INTO dbo.Ticket (
     fecha_creacion,
     descripcion,
     prioridad,
@@ -45,7 +45,7 @@ INSERT INTO dbo.Tickets (
 )
 SELECT
     DATEADD(MINUTE, n, '2024-01-01') AS fecha_creacion,  -- Distribuye fechas a lo largo del tiempo
-    CONCAT('Ticket generado automáticamente #', n) AS descripcion,
+    CONCAT('Ticket generado automï¿½ticamente #', n) AS descripcion,
     CASE (n % 3)
         WHEN 0 THEN 'Alta'
         WHEN 1 THEN 'Media'
@@ -58,35 +58,35 @@ SELECT
         ELSE 'Cerrado'
     END AS estado,
     1 AS id_usuario,       -- Asegurarse que exista Usuario con id_usuario = 1
-    NULL AS id_tecnico,    -- Sin técnico asignado (nullable)
+    NULL AS id_tecnico,    -- Sin tï¿½cnico asignado (nullable)
     1 AS id_categoria,     -- Asegurarse que exista Categoria_Problema con id_categoria = 1
     SUSER_SNAME() AS user_create,
     1 AS activo;
 GO
 /* ==========================================================
-   ELIMINAR ÍNDICES PREVIOS SOBRE fecha_creacion (SI EXISTEN)
-   Para partir de un escenario "sin índice"
+   ELIMINAR ï¿½NDICES PREVIOS SOBRE fecha_creacion (SI EXISTEN)
+   Para partir de un escenario "sin ï¿½ndice"
    ========================================================== */
 
 IF EXISTS (SELECT 1 FROM sys.indexes 
            WHERE name = 'IX_Tickets_FechaCreacion'
-             AND object_id = OBJECT_ID('dbo.Tickets'))
-    DROP INDEX IX_Tickets_FechaCreacion ON dbo.Tickets;
+             AND object_id = OBJECT_ID('dbo.Ticket'))
+    DROP INDEX IX_Tickets_FechaCreacion ON dbo.Ticket;
 GO
 
 IF EXISTS (SELECT 1 FROM sys.indexes 
            WHERE name = 'IX_Tickets_FechaCreacion_Incl'
-             AND object_id = OBJECT_ID('dbo.Tickets'))
-    DROP INDEX IX_Tickets_FechaCreacion_Incl ON dbo.Tickets;
+             AND object_id = OBJECT_ID('dbo.Ticket'))
+    DROP INDEX IX_Tickets_FechaCreacion_Incl ON dbo.Ticket;
 GO
 
 /* ==========================================================
-   ESCENARIO 1: SIN ÍNDICE SOBRE fecha_creacion
+   ESCENARIO 1: SIN ï¿½NDICE SOBRE fecha_creacion
    - Medir tiempos y lecturas
    - Observar plan (Table Scan)
    ========================================================== */
 
--- Activar estadísticas
+-- Activar estadï¿½sticas
 SET STATISTICS IO ON;
 SET STATISTICS TIME ON;
 GO
@@ -100,7 +100,7 @@ SELECT
     t.descripcion,
     t.estado,
     t.prioridad
-FROM dbo.Tickets AS t
+FROM dbo.Ticket AS t
 WHERE t.fecha_creacion BETWEEN '2024-03-01' AND '2024-04-01'
 ORDER BY t.fecha_creacion;
 GO
@@ -109,14 +109,14 @@ SET STATISTICS IO OFF;
 SET STATISTICS TIME OFF;
 GO
 /* ==========================================================
-   ESCENARIO 2: ÍNDICE NO AGRUPADO SOBRE fecha_creacion
-   (equivalente a la idea de "índice agrupado sobre fecha"
+   ESCENARIO 2: ï¿½NDICE NO AGRUPADO SOBRE fecha_creacion
+   (equivalente a la idea de "ï¿½ndice agrupado sobre fecha"
     planteada en la consigna, considerando que la PK ya
-    utiliza el índice agrupado de la tabla).
+    utiliza el ï¿½ndice agrupado de la tabla).
    ========================================================== */
 
 CREATE NONCLUSTERED INDEX IX_Tickets_FechaCreacion
-ON dbo.Tickets(fecha_creacion);
+ON dbo.Ticket(fecha_creacion);
 GO
 
 SET STATISTICS IO ON;
@@ -128,7 +128,7 @@ SELECT
     t.descripcion,
     t.estado,
     t.prioridad
-FROM dbo.Tickets AS t
+FROM dbo.Ticket AS t
 WHERE t.fecha_creacion BETWEEN '2024-03-01' AND '2024-04-01'
 ORDER BY t.fecha_creacion;
 GO
@@ -140,22 +140,22 @@ GO
 
 
 /* ==========================================================
-   ELIMINAR ÍNDICE IX_Tickets_FechaCreacion
+   ELIMINAR ï¿½NDICE IX_Tickets_FechaCreacion
    (requisito de la consigna)
    ========================================================== */
 
-DROP INDEX IX_Tickets_FechaCreacion ON dbo.Tickets;
+DROP INDEX IX_Tickets_FechaCreacion ON dbo.Ticket;
 GO
 
 /* ==========================================================
-   ESCENARIO 3: ÍNDICE NO AGRUPADO CUBRIENTE SOBRE fecha_creacion
+   ESCENARIO 3: ï¿½NDICE NO AGRUPADO CUBRIENTE SOBRE fecha_creacion
    - Clave: fecha_creacion
    - Columnas incluidas: descripcion, estado, prioridad
-   - Busca que toda la consulta "viva" dentro del índice
+   - Busca que toda la consulta "viva" dentro del ï¿½ndice
    ========================================================== */
 
 CREATE NONCLUSTERED INDEX IX_Tickets_FechaCreacion_Incl
-ON dbo.Tickets(fecha_creacion)
+ON dbo.Ticket(fecha_creacion)
 INCLUDE (descripcion, estado, prioridad);
 GO
 
@@ -168,7 +168,7 @@ SELECT
     t.descripcion,
     t.estado,
     t.prioridad
-FROM dbo.Tickets AS t
+FROM dbo.Ticket AS t
 WHERE t.fecha_creacion BETWEEN '2024-03-01' AND '2024-04-01'
 ORDER BY t.fecha_creacion;
 GO

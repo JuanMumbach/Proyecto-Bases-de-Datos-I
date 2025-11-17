@@ -112,6 +112,8 @@ La tabla Historial es fundamental, ya que documenta cada acción (creación, com
 
 El alcance del proyecto se limita al diseño e implementación de la base de datos relacional. Incluye el script de creación de tablas, el diccionario de datos y la investigación de conceptos aplicados (Roles, SPs, Índices, JSON).
 
+---
+
 # CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL
 
 A continuación, se detallan los conceptos teóricos fundamentales de SQL Server que se han investigado y aplicado directamente en el diseño, optimización y seguridad de la base de datos del Sistema de Tickets.
@@ -215,6 +217,8 @@ Diagrama Entidad–Relación (DER): Representó de manera visual las entidades d
 Modelo Relacional: Permitió traducir el modelo conceptual al nivel lógico mediante la definición de las tablas y sus campos con sus respectivos tipos de datos.
 
 Diccionario de Datos: Documentó cada campo, tipo de dato, clave y descripción de todas las tablas que conforman la base de datos, sirviendo como guía técnica para su correcta implementación y mantenimiento.
+
+---
 
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS
 
