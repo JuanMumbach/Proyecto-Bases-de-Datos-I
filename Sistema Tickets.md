@@ -96,9 +96,9 @@ Son conjuntos de instrucciones SQL (SELECT, INSERT, UPDATE, DELETE) que se compi
 
 - **`sp_InsertarTicket:`** Centraliza la lógica de creación de un ticket, ejecutando el INSERT en Tickets y el INSERT en Historial de forma atómica. Esto asegura que ambas acciones se realicen o ninguna se realice (Atomicidad).
 
-- **`sp_ModificarEstadoTicket:`**  Permite cambiar el estado de un ticket y opcionalmente asignarlo a un técnico, registrando siempre el cambio en Historial.
+- **`sp_ModificarEstadoTicket:`** Permite cambiar el estado de un ticket y opcionalmente asignarlo a un técnico, registrando siempre el cambio en Historial.
 
-- **`Seguridad:`**  Permite que un usuario limitado tenga permiso de EXECUTE sobre el SP, sin tener permisos directos de INSERT sobre las tablas subyacentes.
+- **`Seguridad:`** Permite que un usuario limitado tenga permiso de EXECUTE sobre el SP, sin tener permisos directos de INSERT sobre las tablas subyacentes.
 
 ### Funciones Almacenadas (FN)
 
@@ -186,7 +186,19 @@ Diccionario de Datos: Documentó cada campo, tipo de dato, clave y descripción 
 
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS
 
-## Diccionario de Datos
+En este capítulo, se presentará de forma detallada, los datos e información que se fueron recopilando para comprender, analizar el caso de estudio y conseguir los resultados esperados.
+
+Se emplearon diversas herramientas para lograr el diseño y la gestión de la información de la base de datos. Algunas de estas herramientas nos permitieron representar gráficamente las entidades, tablas y las relaciones entre las mismas, identificando de manera clara y fácilmente los datos, su estructura y comportamiento.
+
+## a) Diagrama de Modelo Relacional
+
+Un Diagrama de Modelo Relacional también conocido como Diagrama Entidad-Relación (ER), es una representación gráfica que muestra cómo interactúan las entidades dentro de una base de datos. Este tipo de diagrama ayuda a visualizar las relaciones entre diferentes elementos clave.
+
+La siguiente imagen representa el Modelo Relacional del sistema de gestión de tickets
+
+![Diagrama de Modelo Relacional](doc/image_5c5641.png)
+
+## b) ## Diccionario de Datos
 
 Diccionario de Datos
 A continuación, se detalla el diccionario de datos que define la estructura de la base de datos relacional para el sistema de gestión de tickets. El diseño incluye columnas de auditoría (date_create, user_create) para rastrear la creación de registros y una columna activo para implementar el borrado lógico (soft delete), preservando la integridad histórica de los datos.
@@ -289,49 +301,61 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 ## Tema 01 - Funciones y procedimientos almacenados
 
 ### Creación de Procedimientos (Microsoft Learn)
-https://learn.microsoft.com/es-es/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver16 
 
-### Creación de Funciones (Microsoft Learn) 
-https://learn.microsoft.com/es-es/sql/t-sql/statements/create-function-transact-sql?view=sql-server-ver16 
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver16
 
-### Diferencias entre procedimiento y función (Stack Overflow) 
+### Creación de Funciones (Microsoft Learn)
+
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-function-transact-sql?view=sql-server-ver16
+
+### Diferencias entre procedimiento y función (Stack Overflow)
+
 https://es.stackoverflow.com/questions/95322/pl-sql-cu%C3%A1ndo-usar-funciones-y-cu%C3%A1ndo-procedimientos
 
 ### Bucles WHILE (Microsoft Learn)
-https://learn.microsoft.com/es-es/sql/t-sql/language-elements/while-transact-sql?view=sql-server-ver16 
- 
-### Función DATEDIFF (Microsoft Learn) 
+
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/while-transact-sql?view=sql-server-ver16
+
+### Función DATEDIFF (Microsoft Learn)
+
 https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
 
 ## Tema 03 - Manejo de transacciones y transacciones anidadas
 
-* **Material de estudio de la cátedra:** Base de Datos I - FaCENA UNNE.
-* **Date, C.J. (Christopher J. Date)** *Introducción a los Sistemas de Bases de Datos.* (Referencia fundamental sobre las propiedades ACID).
-* **Microsoft Learn.** Documentación de Transact-SQL (T-SQL): Cláusulas BEGIN TRANSACTION, COMMIT y ROLLBACK.
+- **Material de estudio de la cátedra:** Base de Datos I - FaCENA UNNE.
+- **Date, C.J. (Christopher J. Date)** _Introducción a los Sistemas de Bases de Datos._ (Referencia fundamental sobre las propiedades ACID).
+- **Microsoft Learn.** Documentación de Transact-SQL (T-SQL): Cláusulas BEGIN TRANSACTION, COMMIT y ROLLBACK.
 
-### BEGIN TRANSACTION       
+### BEGIN TRANSACTION
+
 https://learn.microsoft.com/es-es/sql/t-sql/language-elements/begin-transaction-transact-sql
 
 ### COMMIT TRANSACTION
+
 https://learn.microsoft.com/es-es/sql/t-sql/language-elements/commit-transaction-transact-sql
 
 ### ROLLBACK TRANSACTION
+
 https://learn.microsoft.com/es-es/sql/t-sql/language-elements/rollback-transaction-transact-sql
 
 ### Bloque TRY...CATCH
-https://learn.microsoft.com/es-es/sql/t-sql/language-elements/try-catch-transact-sql
 
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/try-catch-transact-sql
 
 ## Tema 04 - Manejo de permisos a nivel de usuarios de base de datos
 
 ### Creación de Logins (Microsoft Learn)
+
 https://learn.microsoft.com/es-es/sql/t-sql/statements/create-login-transact-sql
 
 ### Creación de Roles (Microsoft Learn)
+
 https://learn.microsoft.com/es-es/sql/t-sql/statements/create-role-transact-sql
 
 ### Asignación de permisos con GRANT (Microsoft Learn)
+
 https://learn.microsoft.com/es-es/sql/t-sql/statements/grant-transact-sql
 
 ### Suplantación de permisos con EXECUTE AS (Microsoft Learn)
+
 https://learn.microsoft.com/es-es/sql/t-sql/statements/execute-as-transact-sql
