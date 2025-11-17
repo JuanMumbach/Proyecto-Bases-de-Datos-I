@@ -266,7 +266,7 @@ Almacena los diferentes tipos de problemas que un usuario puede reportar.
 | user_create  | VARCHAR      | 100      | NO      |       | Auditoría: Usuario de BD que creó el registro.         |
 | activo       | BIT          |          | NO      |       | Borrado Lógico: 1 (Activo) o 0 (Inactivo).             |
 
-### Tabla: Tickets
+### Tabla: Ticket
 
 Es la tabla central del sistema. Almacena cada incidencia reportada por los usuarios.
 
@@ -296,7 +296,25 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 | registrado_por_tecnico | INT          | 10       | SÍ      | FK    | ID del técnico que registró el evento (si aplica).               |
 | id_ticket              | INT          | 10       | NO      | FK    | ID del ticket al que pertenece este historial.                   |
 
-# CAPÍTULO V: BIBLIOGRAFÍA DE CONSULTA
+## c) Implementación de Tareas Técnicas
+
+A continuación, se presentan los hallazgos y resultados de la implementación de cada tema técnico asignado, documentando el comportamiento observado y los resultados de las pruebas.
+
+### Tema 4: Manejo de permisos a nivel de usuarios de base de datos
+
+(Informe extraído de 'tema4_manejo_de_permisos.md') [cite]
+
+En este trabajo práctico, se desarrollaron configuraciones de permisos en la base de datos SistemaTicketsDB para gestionar el acceso seguro a los tickets. Se enfocó en la asignación de permisos a usuarios individuales y roles, asegurando que el acceso a los datos sea seguro y controlado.
+
+A continuación, se documenta el comportamiento de cada prueba:
+
+Prueba 1: Fallo de INSERT directo (Tarea 1.2)
+
+Explicación: Se demuestra que el usuario UsuarioFinal_Lectura (que solo tiene permiso SELECT) no puede insertar datos directamente en la tabla Ticket [cite]. La base de datos bloquea la acción y devuelve un error de permisos.
+
+![Prueba 1: Fallo de INSERT directo](doc/pruebas/tema4/prueba1_fallo_insert.png)
+
+# CAPÍTULO VI: BIBLIOGRAFÍA DE CONSULTA
 
 ## Tema 01 - Funciones y procedimientos almacenados
 
