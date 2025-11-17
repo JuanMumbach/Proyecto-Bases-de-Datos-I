@@ -371,7 +371,42 @@ Explicación: Se ejecutó la "Prueba de Funciones" [cite] para demostrar cómo l
 ![Prueba 3](doc/pruebas/tema1/prueba3.png)
 
 ---
+### Tema 3: 
 
+Se implementó una lógica de control transaccional estricta en la base de datos SistemaTicketsDB para garantizar la Integridad y Atomicidad de las operaciones DML.
+
+### Prueba 1: Éxito y Durabilidad (COMMIT)
+Objetivo: Asegurar que la asignación de un ticket (UPDATE Ticket) y su registro en el historial (INSERT Historial) se confirmen siempre juntos.
+
+#### Evidencia:
+
+Estado Inicial: Se verifica el Ticket 1 como Abierto y Tecnico_Antes en NULL.
+
+Resultado Final: La base de datos muestra el Ticket 1 con estado = 'En proceso' y Tecnico_Despues = 2. El comentario de historial existe.
+![Prueba 1](doc/pruebas/tema3/salida1.png)
+
+#### Conclusión: 
+El COMMIT se ejecutó con éxito, haciendo permanentes la asignación y el registro de historial de forma atómica (Durabilidad).
+
+### Prueba 2: Fallo y Atomicidad (ROLLBACK)
+Objetivo: Demostrar que un fallo intencional en un paso posterior revierte las sentencias anteriores que sí fueron exitosas.
+
+#### Evidencia:
+
+Bloque de Ejecución: Muestra el código que inserta un registro temporal y luego fuerza un fallo con id_usuario = 999.
+![Prueba 1](doc/pruebas/tema3/salida2-1.png)
+
+Reversión de Datos:
+
+Ticket Temporal: El SELECT que busca Ticket temporal antes de fallo muestra CERO FILAS (tabla superior vacía).
+
+Integridad de Historial: La tabla inferior muestra que el Total_Historial_Despues es idéntico al conteo inicial.
+![Prueba 1](doc/pruebas/tema3/salida2.png)
+
+#### Conclusión:
+El ROLLBACK funcionó. El ticket que se insertó exitosamente fue deshecho (Atomicidad), probando que la base de datos queda limpia tras un error.
+
+---
 ### Tema 4: Manejo de permisos a nivel de usuarios de base de datos
 
 (Informe extraído de 'tema4_manejo_de_permisos.md') [cite]
