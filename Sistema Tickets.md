@@ -24,6 +24,44 @@ Pavon, Máximo David Octavio.
 
 ---
 
+# 📑 ÍNDICE
+
+- [CAPÍTULO I: INTRODUCCIÓN](#capítulo-i-introducción)
+  - [a) Tema](#a-tema)
+  - [b) Definición o planteamiento del Problema](#b-definición-o-planteamiento-del-problema)
+  - [c) Objetivo del Trabajo Práctico](#c-objetivo-del-trabajo-práctico)
+    - [i. Preguntas Generales](#i-preguntas-generales)
+    - [ii. Preguntas Específicas](#ii-preguntas-específicas)
+    - [iii. Objetivos Generales](#iii-objetivos-generales)
+    - [iv. Objetivos Específicos](#iv-objetivos-específicos)
+  - [d) Descripción del Sistema](#d-descripción-del-sistema)
+  - [e) Alcance](#e-alcance)
+- [CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL](#capítulo-ii-marco-conceptual-o-referencial)
+  - [Tema 1: Procedimientos Almacenados (SPs) y Funciones (FN)](#tema-1-procedimientos-almacenados-sps-y-funciones-fn)
+  - [Tema 2: Índices y Optimización](#tema-2-índices-y-optimización)
+  - [Tema 3: Transacciones](#tema-3-transacciones)
+  - [Tema 4: Permisos](#tema-4-permisos)
+- [CAPÍTULO III: METODOLOGÍA SEGUIDA](#capítulo-iii-metodología-seguida)
+  - [a) Cómo se realizó el Trabajo Práctico](#a-como-se-realizo-el-trabajo-practico)
+  - [b) Herramientas](#b-Herramientas-Instrumentos-y-procedimientos)
+- [CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS](#capítulo-iv-desarrollo-del-tema--presentación-de-resultados)
+  - [a) Diagrama de Modelo Relacional](#a-diagrama-de-modelo-relacional)
+  - [b) Diccionario de Datos](#b-diccionario-de-datos)
+  - [c) Implementación de Tareas Técnicas](#c-implementación-de-tareas-técnicas)
+- [CAPÍTULO V: CONCLUSIONES](#capítulo-v-conclusiones)
+- [CAPÍTULO VI: BIBLIOGRAFÍA DE CONSULTA](#capítulo-vi-bibliografía-de-consulta)
+  - [Tema 01](#tema-01---funciones-y-procedimientos-almacenados)
+  - [Tema 03](#tema-03---manejo-de-transacciones-y-transacciones-anidadas)
+  - [Tema 04](#tema-04---manejo-de-permisos-a-nivel-de-usuarios-de-base-de-datos)
+
+---
+
+# CAPÍTULO I: INTRODUCCIÓN 04 - Manejo de permisos a nivel de usuarios de base de datos
+
+)
+
+---
+
 # CAPÍTULO I: INTRODUCCIÓN
 
 ## a) Tema
@@ -158,7 +196,7 @@ La seguridad se implementa para controlar el acceso a los datos. El modelo se ba
 
 # CAPÍTULO III: METODOLOGÍA SEGUIDA
 
-**a) Cómo se realizó el Trabajo Práctico**
+## a) Como se realizo el Trabajo Practico
 
 El presente trabajo práctico se desarrolló de manera grupal, fomentando la colaboración y el trabajo coordinado entre los integrantes del equipo.
 Para la gestión del proyecto y el trabajo conjunto se utilizaron herramientas colaborativas que facilitaron la comunicación, el control de versiones y la organización de los archivos.
@@ -168,7 +206,7 @@ Además, se utilizó Google Drive para el almacenamiento y organización de la d
 
 El trabajo se realizó siguiendo una metodología iterativa, donde se fueron desarrollando y ajustando los modelos de datos conforme se analizaban las necesidades del sistema de gestión de tickets. Cada etapa fue validada en conjunto, asegurando la coherencia entre el diseño conceptual, lógico y físico de la base de datos.
 
-**b) Herramientas (Instrumentos y procedimientos)**
+## b) Herramientas (Instrumentos y procedimientos)
 
 Para el desarrollo del sistema de gestión de tickets, se utilizaron diversas herramientas que facilitaron tanto el diseño conceptual y lógico como la implementación física de la base de datos. Entre las principales se destacan:
 
