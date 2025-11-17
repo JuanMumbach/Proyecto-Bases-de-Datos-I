@@ -120,3 +120,12 @@ Un índice no agrupado sobre fecha_creacion mejora el rendimiento, permitiendo b
 
 Un índice cubriente es la opción más eficiente, ya que evita acceder a la tabla y reduce al mínimo el costo de lectura.
 
+
+Bibliografía
+Elmasri, R., & Navathe, S. Fundamentals of Database Systems. Pearson.
+Silberschatz, A., Korth, H., & Sudarshan. Database System Concepts. McGraw-Hill.
+Date, C.J. An Introduction to Database Systems. Addison-Wesley.
+Microsoft SQL Server Documentation. https://learn.microsoft.com/sql
+Ben-Gan, I. Inside SQL Server: T-SQL Querying. Microsoft Press.
+Delaney, K. SQL Server Internals. Microsoft Press.
+
