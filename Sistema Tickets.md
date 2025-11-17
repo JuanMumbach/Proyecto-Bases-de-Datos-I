@@ -196,7 +196,7 @@ Un Diagrama de Modelo Relacional también conocido como Diagrama Entidad-Relaci�
 
 La siguiente imagen representa el Modelo Relacional del sistema de gestión de tickets
 
-![Diagrama de Modelo Relacional](doc/"Esquema relacional.jpg")
+![Diagrama de Modelo Relacional](doc/Esquema%20relacional.jpg)
 
 ## b) ## Diccionario de Datos
 
