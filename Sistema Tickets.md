@@ -308,11 +308,29 @@ En este trabajo práctico, se desarrollaron configuraciones de permisos en la ba
 
 A continuación, se documenta el comportamiento de cada prueba:
 
-Prueba 1: Fallo de INSERT directo (Tarea 1.2)
+### Prueba 1: Fallo de INSERT directo (Tarea 1.2)
 
 Explicación: Se demuestra que el usuario UsuarioFinal_Lectura (que solo tiene permiso SELECT) no puede insertar datos directamente en la tabla Ticket [cite]. La base de datos bloquea la acción y devuelve un error de permisos.
 
-![Prueba 1: Fallo de INSERT directo](doc/pruebas/tema4/prueba1_fallo_insert.png)
+![Prueba 1: Fallo de INSERT directo](doc/pruebas/tema%204/prueba1_fallo_insert.png)
+
+### Prueba 2: Éxito de INSERT vía Stored Procedure (Tarea 1.2)
+
+Explicación: Se demuestra que el mismo usuario UsuarioFinal_Lectura SÍ puede crear un ticket exitosamente al ejecutar el sp_CrearNuevoTicket [cite]. Esto se debe a que le dimos permiso EXECUTE sobre el SP, permitiendo la inserción de forma controlada y segura, sin darle acceso directo a la tabla.
+
+![Prueba 2: Éxito de INSERT vía Stored Procedure](doc/pruebas/tema%204/prueba2_exito_insert.png)
+
+### Prueba 3: Éxito de SELECT con Rol (Tarea 2)
+
+Explicación: Se demuestra que el UsuarioConRol puede leer la tabla Categoria_Problema [cite]. Esto funciona porque el usuario hereda el permiso SELECT del rol Rol_Ver_Categorias al que fue asignado.
+
+![Prueba 3: Éxito de SELECT con Rol](doc/pruebas/tema%204/prueba3_usuario_con_rol.png)
+
+### Prueba 4: Fallo de SELECT sin Rol (Tarea 2)
+
+Explicación: Se demuestra que el UsuarioSinRol no puede leer la tabla Categoria_Problema. Al no pertenecer al rol, no tiene ningún permiso sobre la tabla, y la base de datos deniega el acceso.
+
+![Prueba 4: Fallo de SELECT sin Rol](doc/pruebas/tema%204/prueba4_usuario_sin_rol.png)
 
 # CAPÍTULO VI: BIBLIOGRAFÍA DE CONSULTA
 
