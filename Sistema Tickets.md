@@ -498,7 +498,7 @@ https://learn.microsoft.com/es-es/sql/t-sql/language-elements/while-transact-sql
 
 ### Función DATEDIFF (Microsoft Learn)
 
-## https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
+### https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
 
 ---
 
