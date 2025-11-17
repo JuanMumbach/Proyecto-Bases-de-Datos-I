@@ -286,6 +286,23 @@ Registra todos los eventos, comentarios y cambios de estado asociados a un ticke
 
 # CAPÍTULO V: BIBLIOGRAFÍA DE CONSULTA
 
+## Tema 01 - Funciones y procedimientos almacenados
+
+### Creación de Procedimientos (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver16 
+
+### Creación de Funciones (Microsoft Learn) 
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-function-transact-sql?view=sql-server-ver16 
+
+### Diferencias entre procedimiento y función (Stack Overflow) 
+https://es.stackoverflow.com/questions/95322/pl-sql-cu%C3%A1ndo-usar-funciones-y-cu%C3%A1ndo-procedimientos
+
+### Bucles WHILE (Microsoft Learn)
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/while-transact-sql?view=sql-server-ver16 
+ 
+### Función DATEDIFF (Microsoft Learn) 
+https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
+
 ## Tema 03 - Manejo de transacciones y transacciones anidadas
 
 * **Material de estudio de la cátedra:** Base de Datos I - FaCENA UNNE.
