@@ -51,6 +51,7 @@ Pavon, Máximo David Octavio.
 - [CAPÍTULO V: CONCLUSIONES](#capítulo-v-conclusiones)
 - [CAPÍTULO VI: BIBLIOGRAFÍA DE CONSULTA](#capítulo-vi-bibliografía-de-consulta)
   - [Tema 01](#tema-01---funciones-y-procedimientos-almacenados)
+  - [Tema 02](#tema-02---indices-y-optimizacion)
   - [Tema 03](#tema-03---manejo-de-transacciones-y-transacciones-anidadas)
   - [Tema 04](#tema-04---manejo-de-permisos-a-nivel-de-usuarios-de-base-de-datos)
 
@@ -499,7 +500,9 @@ https://learn.microsoft.com/es-es/sql/t-sql/language-elements/while-transact-sql
 
 ## https://learn.microsoft.com/es-es/sql/t-sql/functions/datediff-transact-sql?view=sql-server-ver16
 
-## Tema 02 - Índices y Optimización (SQL Server)
+---
+
+## Tema 02 - Indices y Optimizacion
 
 ### Bibliografía General del Tema
 
