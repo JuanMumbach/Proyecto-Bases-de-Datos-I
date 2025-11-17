@@ -332,6 +332,78 @@ Explicación: Se demuestra que el UsuarioSinRol no puede leer la tabla Categoria
 
 ![Prueba 4: Fallo de SELECT sin Rol](doc/pruebas/tema%204/prueba4_usuario_sin_rol.png)
 
+---
+
+# CAPÍTULO V: CONCLUSIONES
+
+Al finalizar el presente proyecto, el grupo ha logrado cumplir con los **objetivos generales y específicos** planteados en la _Introducción_. Se diseñó e implementó exitosamente una **base de datos relacional funcional** para el _Sistema de Gestión de Tickets_, brindando una solución concreta a los problemas de desorganización, falta de trazabilidad y la ineficiencia del registro manual de incidencias.
+
+## Aplicación de conceptos teóricos
+
+Los conocimientos desarrollados a lo largo de la materia —aplicados en el **Capítulo IV**— fueron fundamentales para la robustez del sistema.
+
+## 1. Integridad y Lógica de Negocio (Temas 1 y 3)
+
+La implementación de:
+
+- **Procedimientos almacenados**  
+  `sp_CrearNuevoTicket`, `sp_ModificarTicket`
+- **Transacciones**  
+  `tema3_transacciones_prueba.sql`
+
+permitió garantizar:
+
+- la **integridad de los datos**
+- el cumplimiento estricto de las **reglas de negocio**
+- la creación obligatoria de registros en **Historial** por cada Ticket
+- y la **atomicidad** de todas las operaciones
+
+La prueba de **ROLLBACK** confirmó que la base de datos **nunca queda en un estado inconsistente**, cumpliendo así con las propiedades **ACID**.
+
+## 2. Rendimiento (Tema 2)
+
+La prueba de carga masiva de **1 millón de registros** fue uno de los hallazgos más relevantes:
+
+- La consulta sin índice realizó un **Table Scan**, resultando totalmente **inviable**.
+- La creación de un **Índice Cubriente** (Non-Clustered con `INCLUDE`) redujo el costo de ejecución de la consulta de manera drástica.
+
+Esto demuestra que un sistema real necesita **optimización con índices** para garantizar **escalabilidad** y **eficiencia**.
+
+## 3. Seguridad (Tema 4)
+
+Las pruebas de **Permisos y Roles** validaron correctamente el _Principio de Mínimo Privilegio_:
+
+- Un usuario sin permisos de `INSERT` (`UsuarioFinal_Lectura`)  
+  pudo insertar datos únicamente mediante **EXECUTE** sobre un Stored Procedure.
+
+Esto asegura:
+
+- control de acceso seguro
+- protección contra manipulaciones directas en tablas
+- separación clara de responsabilidades
+
+## Dificultades encontradas
+
+Las principales dificultades fueron de tipo **técnico**, no conceptual:
+
+- Configuración del rol **sysadmin** en SQL Server
+- Manejo de **tokens**, autenticación y resolución de **conflictos de merge** en Git
+
+## Conclusión final
+
+El proyecto no solo logró un **modelo de datos coherente** (`script_DDL_SistemaTickets`), sino que demostró de forma práctica que herramientas avanzadas como:
+
+- **Stored Procedures**
+- **Índices**
+- **Transacciones**
+- **Roles y permisos**
+
+son indispensables para construir un sistema **seguro**, **rápido** y **confiable**.
+
+En resumen, el trabajo integró teoría y práctica de manera efectiva, mostrando el valor real de un diseño adecuado y la correcta implementación de las funcionalidades del motor de base de datos.
+
+---
+
 # CAPÍTULO VI: BIBLIOGRAFÍA DE CONSULTA
 
 ## Tema 01 - Funciones y procedimientos almacenados
