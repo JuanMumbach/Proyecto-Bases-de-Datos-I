@@ -26,23 +26,23 @@ Pavon, Máximo David Octavio.
 
 # CAPÍTULO I: INTRODUCCIÓN
 
-a) Tema
+## a) Tema
 
 Diseño e Implementación de una Base de Datos Relacional para un Sistema de Gestión de Tickets de Soporte Técnico.
 
-b) Definición o planteamiento del Problema
+## b) Definición o planteamiento del Problema
 
 En la actualidad, las empresas dependen en gran medida de la tecnología para el desarrollo de sus operaciones. Esto genera la necesidad de contar con un área de soporte técnico capaz de atender incidencias de hardware, software, redes o servicios internos de manera rápida y ordenada.
 
 El uso de sistemas o software no dedicado a este objetivo, u organizaciones que registran estos incidentes de forma manual (a través de correos electrónicos, llamadas telefónicas o incluso mensajes informales) provoca desorganización, pérdida de información, retrasos en la atención y dificultad para medir la eficiencia del área de soporte.
 
-c) Objetivo del Trabajo Práctico
+## c) Objetivo del Trabajo Práctico
 
-i. Preguntas Generales
+### i. Preguntas Generales
 
 ¿Cómo podemos optimizar la gestión de incidencias, el seguimiento de técnicos y la trazabilidad de las soluciones en un área de soporte?
 
-ii. Preguntas Específicas
+### ii. Preguntas Específicas
 
 ¿Cómo podemos registrar una incidencia de forma unificada?
 
@@ -54,11 +54,11 @@ ii. Preguntas Específicas
 
 ¿Cómo medimos el tiempo de respuesta y la eficiencia de los técnicos?
 
-iii. Objetivos Generales
+### iii. Objetivos Generales
 
 Dar solución a la problemática de la falta de un sistema centralizado para la gestión de incidencias, mejorando la trazabilidad y los tiempos de respuesta del área de soporte.
 
-iv. Objetivos Específicos
+## iv. Objetivos Específicos
 
 Centralizar la creación de tickets de soporte.
 
@@ -68,7 +68,7 @@ Permitir un seguimiento integral de cada incidencia a través de un historial.
 
 Obtener métricas de desempeño que apoyen la toma de decisiones.
 
-d) Descripción del Sistema
+## d) Descripción del Sistema
 
 El sistema de gestión de tickets permitirá a los usuarios (empleados o clientes externos) generar solicitudes de asistencia (tickets). Estos serán asignados a técnicos responsables y categorizados según su tipo y prioridad.
 
@@ -76,7 +76,7 @@ El sistema cuenta con perfiles de Usuario (quien crea el ticket) y Técnico (qui
 
 La tabla Historial es fundamental, ya que documenta cada acción (creación, comentario, cambio de estado, asignación) realizada sobre un ticket, garantizando una trazabilidad completa desde que se abre hasta que se cierra.
 
-e) Alcance
+## e) Alcance
 
 El alcance del proyecto se limita al diseño e implementación de la base de datos relacional. Incluye el script de creación de tablas, el diccionario de datos y la investigación de conceptos aplicados (Roles, SPs, Índices, JSON).
 
@@ -198,7 +198,7 @@ La siguiente imagen representa el Modelo Relacional del sistema de gestión de t
 
 ![Diagrama de Modelo Relacional](doc/Esquema%20relacional.jpg)
 
-## b) ## Diccionario de Datos
+## b) Diccionario de Datos
 
 Diccionario de Datos
 A continuación, se detalla el diccionario de datos que define la estructura de la base de datos relacional para el sistema de gestión de tickets. El diseño incluye columnas de auditoría (date_create, user_create) para rastrear la creación de registros y una columna activo para implementar el borrado lógico (soft delete), preservando la integridad histórica de los datos.
