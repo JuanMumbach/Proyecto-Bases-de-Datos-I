@@ -5,7 +5,7 @@
    ========================================================== */
 
 -- 1) Seleccionar la base de datos del proyecto
-USE SistemaTickets;   -- Cambiar si usaste otro nombre de BD
+USE SistemaTicketsDB;
 GO
 
 -- 2) Verificar que exista la tabla Ticket
@@ -58,10 +58,11 @@ SELECT
         ELSE 'Cerrado'
     END AS estado,
     1 AS id_usuario,       -- Asegurarse que exista Usuario con id_usuario = 1
-    NULL AS id_tecnico,    -- Sin t�cnico asignado (nullable)
+    NULL AS id_tecnico,    -- Sin tecnico asignado (nullable)
     1 AS id_categoria,     -- Asegurarse que exista Categoria_Problema con id_categoria = 1
     SUSER_SNAME() AS user_create,
-    1 AS activo;
+    1 AS activo
+FROM N;
 GO
 /* ==========================================================
    ELIMINAR �NDICES PREVIOS SOBRE fecha_creacion (SI EXISTEN)
