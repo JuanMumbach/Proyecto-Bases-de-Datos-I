@@ -398,7 +398,8 @@ Table 'Ticket'. Scan count 1, logical reads 14739, physical reads 0, page server
  SQL Server Execution Times:
    CPU time = 172 ms,  elapsed time = 575 ms.
 SQL Server parse and compile time: 
-   CPU time = 0 ms, elapsed time = 0 ms.```
+   CPU time = 0 ms, elapsed time = 0 ms.
+```
 
 ![Escenario 1](doc/pruebas/tema%202/Escenario1.png)
 
@@ -415,7 +416,8 @@ Table 'Ticket'. Scan count 1, logical reads 136825, physical reads 0, page serve
  SQL Server Execution Times:
    CPU time = 141 ms,  elapsed time = 414 ms.
 SQL Server parse and compile time: 
-   CPU time = 0 ms, elapsed time = 0 ms.```
+   CPU time = 0 ms, elapsed time = 0 ms.
+```
 
 ![Escenario 2](doc/pruebas/tema%202/Escenario2.png)
 
@@ -433,7 +435,8 @@ Table 'Ticket'. Scan count 1, logical reads 433, physical reads 0, page server r
  SQL Server Execution Times:
    CPU time = 47 ms,  elapsed time = 374 ms.
 SQL Server parse and compile time: 
-   CPU time = 0 ms, elapsed time = 0 ms.```
+   CPU time = 0 ms, elapsed time = 0 ms.
+```
 
 ![Escenario 3](doc/pruebas/tema%202/Escenario3.png)
 
