@@ -1,3 +1,5 @@
+<div align="center">
+
 # Proyecto de Estudio: Diseño e Implementación de una Base de Datos para la Gestión de Tickets.
 
 ## Universidad Nacional del Nordeste
@@ -21,6 +23,7 @@ Mumbach, Juan Ignacio.
 Pavon, Máximo David Octavio.
 
 ## Año: 2025
+</div>
 
 <div style="page-break-after: always;"></div>
 
