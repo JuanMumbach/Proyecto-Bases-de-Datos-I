@@ -1,10 +1,10 @@
-## Proyecto de Estudio: Diseño e Implementación de una Base de Datos para la Gestión de Tickets.
+# Proyecto de Estudio: Diseño e Implementación de una Base de Datos para la Gestión de Tickets.
 
-### Universidad Nacional del Nordeste
+## Universidad Nacional del Nordeste
 
-### Facultad de Ciencias Exactas y Naturales y Agrimensura
+## Facultad de Ciencias Exactas y Naturales y Agrimensura
 
-### Asignatura: Bases de Datos I
+## Asignatura: Bases de Datos I
 
 ## Profesores:
 
@@ -22,7 +22,7 @@ Pavon, Máximo David Octavio.
 
 ## Año: 2025
 
----
+<div style="page-break-after: always;"></div>
 
 # 📑 ÍNDICE
 
@@ -55,7 +55,7 @@ Pavon, Máximo David Octavio.
   - [Tema 03](#tema-03---manejo-de-transacciones-y-transacciones-anidadas)
   - [Tema 04](#tema-04---manejo-de-permisos-a-nivel-de-usuarios-de-base-de-datos)
 
----
+<div style="page-break-after: always;"></div>
 
 # CAPÍTULO I: INTRODUCCIÓN
 
@@ -113,7 +113,7 @@ La tabla Historial es fundamental, ya que documenta cada acción (creación, com
 
 El alcance del proyecto se limita al diseño e implementación de la base de datos relacional. Incluye el script de creación de tablas, el diccionario de datos y la investigación de conceptos aplicados (Roles, SPs, Índices, JSON).
 
----
+<div style="page-break-after: always;"></div>
 
 # CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL
 
@@ -189,7 +189,7 @@ La seguridad se implementa para controlar el acceso a los datos. El modelo se ba
 
 - **`Prueba Central:`** El usuario puede insertar datos de forma exitosa usando el SP, aunque no tiene permiso directo de INSERT sobre la tabla. Esto demuestra que la lógica de negocio se ejecuta de forma segura y controlada, sin comprometer la tabla subyacente.
 
----
+<div style="page-break-after: always;"></div>
 
 # CAPÍTULO III: METODOLOGÍA SEGUIDA
 
@@ -219,7 +219,7 @@ Modelo Relacional: Permitió traducir el modelo conceptual al nivel lógico medi
 
 Diccionario de Datos: Documentó cada campo, tipo de dato, clave y descripción de todas las tablas que conforman la base de datos, sirviendo como guía técnica para su correcta implementación y mantenimiento.
 
----
+<div style="page-break-after: always;"></div>
 
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS
 
@@ -518,7 +518,7 @@ Explicación: Se demuestra que el UsuarioSinRol no puede leer la tabla Categoria
 
 ![Prueba 4: Fallo de SELECT sin Rol](doc/pruebas/tema%204/prueba4_usuario_sin_rol.png)
 
----
+<div style="page-break-after: always;"></div>
 
 # CAPÍTULO V: CONCLUSIONES
 
@@ -588,7 +588,7 @@ son indispensables para construir un sistema **seguro**, **rápido** y **confiab
 
 En resumen, el trabajo integró teoría y práctica de manera efectiva, mostrando el valor real de un diseño adecuado y la correcta implementación de las funcionalidades del motor de base de datos.
 
----
+<div style="page-break-after: always;"></div>
 
 # CAPÍTULO VI: BIBLIOGRAFÍA DE CONSULTA
 
