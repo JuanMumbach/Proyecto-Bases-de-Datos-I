@@ -369,6 +369,79 @@ Explicación: Se ejecutó la "Prueba de Funcionamiento". Se invocó a sp_Modific
 Explicación: Se ejecutó la "Prueba de Funciones" [cite] para demostrar cómo las funciones encapsulan cálculos. Se llamó a fn_ObtenerNombreUsuario (ID 1), fn_CalcularAntiguedadTicket (para el primer ticket) y fn_ContarTicketsAbiertosPorTecnico (para el técnico ID 1).
 
 ![Prueba 3](doc/pruebas/tema1/prueba3.png)
+---
+### Tema 2: Optimización Consultas
+
+Para evaluar el impacto de los índices en consultas por rango de fechas, se realizó una carga masiva de 1.000.000 de registros en la tabla Tickets y se ejecutó la siguiente consulta de control en tres escenarios distintos:
+
+```SQL
+SELECT fecha_creacion, descripcion, estado, prioridad
+FROM Ticket
+WHERE fecha_creacion BETWEEN '2024-03-01' AND '2024-04-01'
+ORDER BY fecha_creacion;
+
+A continuación, se detallan los resultados de cada escenario.
+
+Escenario 1: Sin Índice (Línea Base)
+
+En este primer escenario, se eliminaron todos los índices no agrupados. Al no existir una estructura ordenada por fecha, el motor de base de datos se vio obligado a recorrer toda la tabla.
+
+Plan de Ejecución: Se observó un operador "Clustered Index Scan" (equivalente a un Table Scan), indicando que se leyeron todas las filas. Además, el operador "Sort" consumió gran parte de los recursos para ordenar los resultados.
+
+Costo: 14,739 lecturas lógicas.
+
+
+```Mensaje:
+Table 'Ticket'. Scan count 1, logical reads 14739, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 172 ms,  elapsed time = 575 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.```
+
+![Escenario 1](doc/pruebas/tema2/escenario1.png)
+
+Escenario 2: Índice No Agrupado (Index Seek + Key Lookup)
+
+Se creó un índice estándar sobre la columna fecha_creacion. Aunque el motor pudo encontrar rápido las filas por fecha (Index Seek), tuvo que ir a buscar los datos faltantes (descripcion, estado, prioridad) a la tabla principal por cada fila encontrada.
+
+Resultado: Esto generó un efecto adverso conocido como Key Lookup, disparando las lecturas lógicas a 136,825 (casi 10 veces más que sin índice), demostrando que un índice mal diseñado puede ser contraproducente.
+
+```Mensaje:
+Table 'Ticket'. Scan count 1, logical reads 136825, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 141 ms,  elapsed time = 414 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.```
+
+![Escenario 2](doc/pruebas/tema2/escenario2.png)
+
+Escenario 3: Índice Cubriente (Solución Óptima)
+
+Finalmente, se creó un índice sobre fecha_creacion incluyendo (INCLUDE) las columnas descripcion, estado y prioridad.
+
+Plan de Ejecución: Se eliminaron los saltos a la tabla. El plan muestra un Index Seek puro, resolviendo la consulta enteramente desde el índice.
+
+Costo: Las lecturas bajaron drásticamente a 433, logrando la máxima eficiencia.
+
+```Mensaje:
+Table 'Ticket'. Scan count 1, logical reads 433, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 47 ms,  elapsed time = 374 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.```
+
+![Escenario 3](doc/pruebas/tema2/escenario3.png)
+
+Comparación Final de Rendimiento:
+
+| Escenario	          | Tipo de Acceso	        | Lecturas Lógicas	| CPU (ms)  |	Tiempo Total (ms) |
+| Sin índice          |	Table Scan (Clustered)  |	14739             |	172	      | 575               |
+| Índice no agrupado  |	Index Seek + Key Lookup |	136825            |	141       |	414               |
+| Índice cubriente	  | Index Seek (Puro)       |	433               |	47        | 374               |
+
 
 ---
 ### Tema 3: 
