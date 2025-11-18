@@ -356,19 +356,19 @@ A continuación, se documenta el comportamiento de cada prueba:
 Explicación: Se ejecutó la "Prueba de Carga de Datos" (Tarea 2) . Se insertaron 3 tickets usando INSERT directo (Lote 1) y 3 tickets usando el sp_CrearNuevoTicket (Lote 2).
 La captura de pantalla demuestra la ventaja clave del SP: al consultar el historial, solo los tickets creados por el SP (ID 9, 10, 11) generaron un registro de auditoría, cumpliendo la regla de negocio, mientras que los tickets del Lote 1 (ID 6, 7, 8) no lo hicieron.
 
-![Prueba 1](doc/pruebas/tema1/prueba1.png)
+![Prueba 1](doc/pruebas/tema%201/prueba1.png)
 
 ### Prueba 2: Pruebas de UPDATE y DELETE (Tarea 3)
 
 Explicación: Se ejecutó la "Prueba de Funcionamiento". Se invocó a sp_ModificarTicket para asignar un ticket del Lote 1 a un técnico y cambiar su estado. Luego, se invocó a sp_BorrarTicketLogico para "borrar" un ticket del Lote 2.
 
-![Prueba 2](doc/pruebas/tema1/prueba2.png)
+![Prueba 2](doc/pruebas/tema%201/prueba2.png)
 
 ### Prueba 3: Pruebas de Funciones (Tarea 4)
 
 Explicación: Se ejecutó la "Prueba de Funciones" [cite] para demostrar cómo las funciones encapsulan cálculos. Se llamó a fn_ObtenerNombreUsuario (ID 1), fn_CalcularAntiguedadTicket (para el primer ticket) y fn_ContarTicketsAbiertosPorTecnico (para el técnico ID 1).
 
-![Prueba 3](doc/pruebas/tema1/prueba3.png)
+![Prueba 3](doc/pruebas/tema%201/prueba3.png)
 ---
 ### Tema 2: Optimización Consultas
 
@@ -399,7 +399,7 @@ Table 'Ticket'. Scan count 1, logical reads 14739, physical reads 0, page server
 SQL Server parse and compile time: 
    CPU time = 0 ms, elapsed time = 0 ms.```
 
-![Escenario 1](doc/pruebas/tema2/escenario1.png)
+![Escenario 1](doc/pruebas/tema%202/Escenario1.png)
 
 Escenario 2: Índice No Agrupado (Index Seek + Key Lookup)
 
@@ -415,7 +415,7 @@ Table 'Ticket'. Scan count 1, logical reads 136825, physical reads 0, page serve
 SQL Server parse and compile time: 
    CPU time = 0 ms, elapsed time = 0 ms.```
 
-![Escenario 2](doc/pruebas/tema2/escenario2.png)
+![Escenario 2](doc/pruebas/tema%202/Escenario2.png)
 
 Escenario 3: Índice Cubriente (Solución Óptima)
 
@@ -433,7 +433,7 @@ Table 'Ticket'. Scan count 1, logical reads 433, physical reads 0, page server r
 SQL Server parse and compile time: 
    CPU time = 0 ms, elapsed time = 0 ms.```
 
-![Escenario 3](doc/pruebas/tema2/escenario3.png)
+![Escenario 3](doc/pruebas/tema%202/Escenario3.png)
 
 Comparación Final de Rendimiento:
 
@@ -456,7 +456,7 @@ Objetivo: Asegurar que la asignación de un ticket (UPDATE Ticket) y su registro
 Estado Inicial: Se verifica el Ticket 1 como Abierto y Tecnico_Antes en NULL.
 
 Resultado Final: La base de datos muestra el Ticket 1 con estado = 'En proceso' y Tecnico_Despues = 2. El comentario de historial existe.
-![Prueba 1](doc/pruebas/tema3/salida1.png)
+![Prueba 1](doc/pruebas/tema%203/salida1.png)
 
 #### Conclusión: 
 El COMMIT se ejecutó con éxito, haciendo permanentes la asignación y el registro de historial de forma atómica (Durabilidad).
@@ -467,14 +467,14 @@ Objetivo: Demostrar que un fallo intencional en un paso posterior revierte las s
 #### Evidencia:
 
 Bloque de Ejecución: Muestra el código que inserta un registro temporal y luego fuerza un fallo con id_usuario = 999.
-![Prueba 1](doc/pruebas/tema3/salida2-1.png)
+![Prueba 1](doc/pruebas/tema%203/salida2-1.png)
 
 Reversión de Datos:
 
 Ticket Temporal: El SELECT que busca Ticket temporal antes de fallo muestra CERO FILAS (tabla superior vacía).
 
 Integridad de Historial: La tabla inferior muestra que el Total_Historial_Despues es idéntico al conteo inicial.
-![Prueba 1](doc/pruebas/tema3/salida2.png)
+![Prueba 1](doc/pruebas/tema%203/salida2.png)
 
 #### Conclusión:
 El ROLLBACK funcionó. El ticket que se insertó exitosamente fue deshecho (Atomicidad), probando que la base de datos queda limpia tras un error.
