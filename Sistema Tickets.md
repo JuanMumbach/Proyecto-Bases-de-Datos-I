@@ -443,6 +443,7 @@ SQL Server parse and compile time:
 Comparación Final de Rendimiento:
 
 | Escenario	          | Tipo de Acceso	        | Lecturas Lógicas	| CPU (ms)  |	Tiempo Total (ms) |
+|---------------------|-------------------------|-------------------|-----------|-------------------|
 | Sin índice          |	Table Scan (Clustered)  |	14739             |	172	      | 575               |
 | Índice no agrupado  |	Index Seek + Key Lookup |	136825            |	141       |	414               |
 | Índice cubriente	  | Index Seek (Puro)       |	433               |	47        | 374               |
