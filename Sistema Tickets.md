@@ -379,6 +379,7 @@ SELECT fecha_creacion, descripcion, estado, prioridad
 FROM Ticket
 WHERE fecha_creacion BETWEEN '2024-03-01' AND '2024-04-01'
 ORDER BY fecha_creacion;
+```
 
 A continuación, se detallan los resultados de cada escenario.
 
@@ -400,6 +401,7 @@ SQL Server parse and compile time:
    CPU time = 0 ms, elapsed time = 0 ms.```
 
 ![Escenario 1](doc/pruebas/tema%202/Escenario1.png)
+
 
 Escenario 2: Índice No Agrupado (Index Seek + Key Lookup)
 
